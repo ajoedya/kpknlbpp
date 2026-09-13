@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Realisasi Anggaran KPKNL Balikpapan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --kertas:#e9edf1;
+  --permukaan:#ffffff;
+  --tinta:#16283a;
+  --redup:#5d7186;
+  --garis:#c8d3dd;
+  --garis-tipis:#dde5eb;
+  --capai:#0f6b4f;
+  --dekat:#8a6a16;
+  --kurang:#9e2b2b;
+  --netral:#8496a6;
+  --rel:#dfe6ec;
+  --sorot:#fdf6dd;
+  --radius:3px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--kertas);color:var(--tinta);
+  font-family:"Libre Franklin","Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.55;
+  font-variant-numeric:tabular-nums;
+}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.bungkus{max-width:1180px;margin:0 auto;padding:0 20px 72px}
+
+/* ---------- kepala ---------- */
+header.atas{background:var(--tinta);color:#eef3f7;padding:18px 0 16px;margin-bottom:22px}
+header.atas .bungkus{padding-bottom:0;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between}
+h1{font-size:21px;font-weight:700;letter-spacing:-.015em;margin:0;line-height:1.2}
+.subjudul{margin:3px 0 0;color:#a9bdcf;font-size:13.5px}
+.alat{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+button,.tombol{
+  font:inherit;font-weight:600;font-size:14px;cursor:pointer;
+  border:1px solid transparent;border-radius:var(--radius);
+  padding:8px 15px;background:#2e5d86;color:#fff;
+}
+button:hover,.tombol:hover{background:#3a719f}
+button.sunyi{background:transparent;color:inherit;border-color:currentColor;opacity:.85}
+button.sunyi:hover{background:rgba(255,255,255,.12);opacity:1}
+button.kecil{padding:5px 11px;font-size:13px}
+:focus-visible{outline:2px solid #f0b429;outline-offset:2px}
+
+/* ---------- tab ---------- */
+nav.tab{display:flex;gap:2px;border-bottom:1px solid var(--garis);margin-bottom:22px;flex-wrap:wrap}
+nav.tab button{
+  background:transparent;color:var(--redup);border:0;border-bottom:3px solid transparent;
+  border-radius:0;padding:10px 16px;font-weight:600;
+}
+nav.tab button:hover{background:#dfe6ec;color:var(--tinta)}
+nav.tab button[aria-selected="true"]{color:var(--tinta);border-bottom-color:#2e5d86}
+
+/* ---------- panel ---------- */
+.panel{background:var(--permukaan);border:1px solid var(--garis);border-radius:var(--radius);padding:20px 22px;margin-bottom:18px}
+.panel h2{font-size:16px;font-weight:700;margin:0 0 14px;letter-spacing:-.01em}
+.panel h3{font-size:14px;font-weight:600;margin:22px 0 8px;color:var(--redup)}
+.panel > p:first-of-type{margin-top:0}
+.ket{color:var(--redup);font-size:13px;margin:10px 0 0}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:30px;align-items:start}
+.angka-besar{font-size:62px;font-weight:700;line-height:1;letter-spacing:-.03em;margin:0}
+.angka-besar small{font-size:26px;font-weight:600;margin-left:2px}
+.kabar{margin:6px 0 18px;font-size:14.5px;color:var(--redup)}
+.kabar b{color:var(--tinta)}
+.ringkas{border-collapse:collapse;width:100%}
+.ringkas td{padding:7px 0;border-bottom:1px solid var(--garis-tipis);font-size:14.5px}
+.ringkas td:first-child{color:var(--redup)}
+.ringkas td:last-child{text-align:right;font-weight:600}
+.ringkas tr:last-child td{border-bottom:0}
+
+/* ---------- rel penyerapan ---------- */
+.rel{position:relative;height:26px;background:var(--rel);border-radius:2px;overflow:hidden}
+.rel .isi{position:absolute;left:0;top:0;bottom:0;background:var(--netral)}
+.rel.capai .isi{background:var(--capai)}
+.rel.dekat .isi{background:var(--dekat)}
+.rel.kurang .isi{background:var(--kurang)}
+.rel .tanda{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--tinta)}
+.rel-kecil{height:9px;border-radius:1px}
+.rel-kecil .tanda{top:-2px;bottom:-2px}
+.skala{display:flex;justify-content:space-between;font-size:12px;color:var(--redup);margin-top:5px}
+
+/* ---------- tabel ---------- */
+.gulir{overflow-x:auto}
+table.data{border-collapse:collapse;width:100%;font-size:14px}
+table.data th,table.data td{padding:8px 10px;border-bottom:1px solid var(--garis-tipis);text-align:left;vertical-align:top}
+table.data thead th{
+  font-size:12.5px;font-weight:600;color:var(--redup);
+  border-bottom:1px solid var(--garis);white-space:nowrap;
+}
+table.data td.n,table.data th.n{text-align:right}
+table.data tbody tr:hover{background:#f4f7f9}
+table.data tr.jumlah td{border-top:2px solid var(--tinta);border-bottom:0;font-weight:700;background:#f4f7f9}
+table.data td.lebar{min-width:230px}
+
+.status{font-weight:600;white-space:nowrap;font-size:13.5px}
+.status.capai{color:var(--capai)}
+.status.dekat{color:var(--dekat)}
+.status.kurang{color:var(--kurang)}
+.status.netral{color:var(--netral)}
+
+/* ---------- bagan ---------- */
+.bagan{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;align-items:center}
+svg{display:block;width:100%;height:auto}
+.legenda{list-style:none;margin:0;padding:0;font-size:13.5px}
+.legenda li{display:flex;align-items:baseline;gap:8px;padding:4px 0;border-bottom:1px solid var(--garis-tipis)}
+.legenda li:last-child{border-bottom:0}
+.legenda .kotak{width:11px;height:11px;flex:0 0 11px;border-radius:2px;position:relative;top:1px}
+.legenda .nm{flex:1;min-width:0}
+.legenda .ps{font-weight:600}
+
+/* ---------- rekonsiliasi ---------- */
+.rekon{display:flex;gap:14px;align-items:flex-start;border-left:4px solid var(--capai);background:#f2f8f5;padding:12px 16px;border-radius:var(--radius);margin-bottom:18px;font-size:14px}
+.rekon.gagal{border-left-color:var(--kurang);background:#fbf3f3}
+.rekon b{display:block}
+.rekon .rinci{color:var(--redup);font-size:13.5px}
+
+/* ---------- muat berkas ---------- */
+.pilih{
+  border:2px dashed var(--garis);border-radius:var(--radius);background:var(--permukaan);
+  padding:52px 26px;text-align:center;
+}
+.pilih.aktif{border-color:#2e5d86;background:#f0f6fb}
+.pilih h2{font-size:19px;margin:0 0 8px}
+.pilih p{color:var(--redup);margin:0 auto 20px;max-width:56ch}
+input[type=file]{display:none}
+.galat{color:var(--kurang);font-weight:600;margin-top:14px}
+
+/* ---------- parameter ---------- */
+.medan{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px 22px;margin-bottom:6px}
+label.baris{display:block;font-size:13px;color:var(--redup);font-weight:600;margin-bottom:4px}
+input[type=text],input[type=number],input[type=date],select{
+  font:inherit;font-size:14px;width:100%;padding:6px 9px;
+  border:1px solid var(--garis);border-radius:var(--radius);background:#fff;color:var(--tinta);
+}
+table.data input[type=number]{width:88px;text-align:right}
+table.data select{min-width:210px}
+tr.belum{background:var(--sorot)}
+.sembunyi{display:none!important}
+
+@media (max-width:860px){
+  .hero,.bagan{grid-template-columns:1fr}
+  .angka-besar{font-size:48px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  body{background:#fff}
+  header.atas{background:#fff;color:var(--tinta);border-bottom:2px solid var(--tinta)}
+  header.atas .subjudul{color:var(--redup)}
+  .alat,nav.tab,.pilih{display:none}
+  .panel{break-inside:avoid;border-color:var(--garis)}
+}
+</style>
+</head>
+<body>
+
+<header class="atas">
+  <div class="bungkus">
+    <div>
+      <h1 id="judulSatker">Realisasi Anggaran KPKNL Balikpapan</h1>
+      <p class="subjudul" id="subJudul">Tahun Anggaran 2026   •   Realisasi s.d. September 2026   •   Diperbarui 13 September 2026   •   Satker 537962</p>
+    </div>
+    <div class="alat">
+      
+      
+      <button id="tombolCetak" class="sunyi">Cetak</button>
+    </div>
+  </div>
+</header>
+
+<div class="bungkus">
+  
+
+  <!-- layar awal -->
+  
+
+  <!-- isi -->
+  <div id="isi" class="">
+    <nav class="tab" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="ringkasan">Ringkasan</button>
+      <button role="tab" aria-selected="false" data-tab="telusur">Telusur output</button>
+      
+    </nav>
+
+    <!-- ============ RINGKASAN ============ -->
+    <div id="tab-ringkasan" class="">
+      <div id="rekon"><div class="rekon"><div><b>Cocok dengan laporan Fa</b><span class="rinci">143 item terbaca. Total pagu 1.802.003.000 dan realisasi 1.309.164.781 sama persis dengan baris JUMLAH SELURUHNYA.</span></div></div></div>
+
+      <section class="panel">
+        <div class="hero">
+          <div>
+            <p class="angka-besar"><span id="persenBesar">72,7</span><small>%</small></p>
+            <p class="kabar" id="kabarCapaian">Penyerapan sampai September berada <b>2,65 persen poin di atas</b> target tertimbang triwulan III, yaitu 70,0 persen.</p>
+            <div class="rel capai" id="relUtama"><div class="isi" style="width: 72.65%;"></div><div class="tanda" style="display: block; left: 70%;"></div></div>
+            <div class="skala"><span>0%</span><span id="labelTarget">target 70,0%</span><span>100%</span></div>
+          </div>
+          <table class="ringkas">
+            <tbody><tr><td>Pagu DIPA</td><td class="num" id="nPagu">1.802.003.000</td></tr>
+            <tr><td>Realisasi s.d. periode</td><td class="num" id="nReal">1.309.164.781</td></tr>
+            <tr><td>Realisasi bulan berjalan</td><td class="num" id="nBulan">10.264.110</td></tr>
+            <tr><td>Sisa anggaran</td><td class="num" id="nSisa">492.838.219</td></tr>
+            <tr><td>Blokir</td><td class="num" id="nBlokir">0</td></tr>
+            <tr><td>Target tertimbang satker</td><td class="num" id="nTarget">70,0%</td></tr>
+          </tbody></table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Realisasi per kelompok belanja</h2>
+        <div class="gulir"><table class="data" id="tblKelompok"><thead><tr><th>Kelompok belanja</th><th class="n num">Pagu</th><th class="n">Blokir</th><th class="n">Realisasi</th><th>Progres</th><th class="n">% real.</th><th class="n">Target</th><th class="n">Sisa</th><th>Status</th></tr></thead><tbody><tr><td>Belanja Pegawai (51)</td><td class="n num">0</td><td class="n num">0</td><td class="n num">0</td><td><div class="rel rel-kecil netral"><div class="isi" style="width:0.00%"></div><div class="tanda" style="left:75.00%"></div></div></td><td class="n num">0,0%</td><td class="n num">75,0%</td><td class="n num">0</td><td><span class="status netral">Tidak dianggarkan</span></td></tr><tr><td>Belanja Barang (52)</td><td class="n num">1.545.803.000</td><td class="n num">0</td><td class="n num">1.054.047.865</td><td><div class="rel rel-kecil kurang"><div class="isi" style="width:68.19%"></div><div class="tanda" style="left:70.00%"></div></div></td><td class="n num">68,2%</td><td class="n num">70,0%</td><td class="n num">491.755.135</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>Belanja Modal (53)</td><td class="n num">256.200.000</td><td class="n num">0</td><td class="n num">255.116.916</td><td><div class="rel rel-kecil capai"><div class="isi" style="width:99.58%"></div><div class="tanda" style="left:70.00%"></div></div></td><td class="n num">99,6%</td><td class="n num">70,0%</td><td class="n num">1.083.084</td><td><span class="status capai">Di atas target</span></td></tr><tr class="jumlah"><td>Jumlah</td><td class="n num">1.802.003.000</td><td class="n num">0</td><td class="n num">1.309.164.781</td><td></td><td class="n num">72,7%</td><td class="n num">70,0%</td><td class="n num">492.838.219</td><td><span class="status capai">Di atas target</span></td></tr></tbody></table></div>
+        <p class="ket">Target mengikuti PER-5/PB/2024 dan bersifat datar, artinya baru harus tercapai penuh pada akhir triwulan. Kelonggaran 10 persen poin pada belanja pegawai TW I sampai III mengikuti ND-145/PB.2/2026 dan diterapkan sebagai ambang status, bukan pengurang angka target.</p>
+      </section>
+
+      <section class="panel">
+        <h2>Realisasi per unit pengampu</h2>
+        <div id="baganUnit"><svg viewBox="0 0 940 290" role="img" aria-label="Grafik batang realisasi per unit pengampu"><line x1="230" y1="18" x2="230" y2="268" stroke="#dde5eb" stroke-width="1"></line><text x="230" y="282" font-size="12" fill="#5d7186" text-anchor="middle">0%</text><line x1="394" y1="18" x2="394" y2="268" stroke="#dde5eb" stroke-width="1"></line><text x="394" y="282" font-size="12" fill="#5d7186" text-anchor="middle">25%</text><line x1="558" y1="18" x2="558" y2="268" stroke="#dde5eb" stroke-width="1"></line><text x="558" y="282" font-size="12" fill="#5d7186" text-anchor="middle">50%</text><line x1="722" y1="18" x2="722" y2="268" stroke="#dde5eb" stroke-width="1"></line><text x="722" y="282" font-size="12" fill="#5d7186" text-anchor="middle">75%</text><line x1="886" y1="18" x2="886" y2="268" stroke="#dde5eb" stroke-width="1"></line><text x="886" y="282" font-size="12" fill="#5d7186" text-anchor="middle">100%</text><line x1="689.2" y1="12" x2="689.2" y2="268" stroke="#16283a" stroke-width="2" stroke-dasharray="5 4"></line><text x="689.2" y="7" font-size="12" font-weight="600" fill="#16283a" text-anchor="middle">target 70,0%</text><text x="218" y="42" font-size="13" fill="#16283a" text-anchor="end">Subbagian Umum</text><rect x="230" y="30" width="656" height="18" fill="#dfe6ec"></rect><rect x="230" y="30" width="499.9" height="18" fill="#0f6b4f"></rect><text x="894" y="44" font-size="13" font-weight="600" fill="#16283a">76,2%</text><text x="218" y="76" font-size="13" fill="#16283a" text-anchor="end">Seksi Pengelolaan Kekayaan Nega…</text><rect x="230" y="64" width="656" height="18" fill="#dfe6ec"></rect><rect x="230" y="64" width="361.6" height="18" fill="#9e2b2b"></rect><text x="894" y="78" font-size="13" font-weight="600" fill="#16283a">55,1%</text><text x="218" y="110" font-size="13" fill="#16283a" text-anchor="end">Seksi Piutang Negara</text><rect x="230" y="98" width="656" height="18" fill="#dfe6ec"></rect><rect x="230" y="98" width="352.9" height="18" fill="#9e2b2b"></rect><text x="894" y="112" font-size="13" font-weight="600" fill="#16283a">53,8%</text><text x="218" y="144" font-size="13" fill="#16283a" text-anchor="end">Seksi Hukum dan Informasi</text><rect x="230" y="132" width="656" height="18" fill="#dfe6ec"></rect><rect x="230" y="132" width="253.7" height="18" fill="#9e2b2b"></rect><text x="894" y="146" font-size="13" font-weight="600" fill="#16283a">38,7%</text><text x="218" y="178" font-size="13" fill="#16283a" text-anchor="end">Seksi Kepatuhan Internal</text><rect x="230" y="166" width="656" height="18" fill="#dfe6ec"></rect><rect x="230" y="166" width="0.0" height="18" fill="#9e2b2b"></rect><text x="894" y="180" font-size="13" font-weight="600" fill="#16283a">0,0%</text><text x="218" y="212" font-size="13" fill="#16283a" text-anchor="end">Kelompok Jafung Pelelang</text><rect x="230" y="200" width="656" height="18" fill="#dfe6ec"></rect><rect x="230" y="200" width="554.4" height="18" fill="#0f6b4f"></rect><text x="894" y="214" font-size="13" font-weight="600" fill="#16283a">84,5%</text><text x="218" y="246" font-size="13" fill="#16283a" text-anchor="end">Kelompok Jafung Penilai</text><rect x="230" y="234" width="656" height="18" fill="#dfe6ec"></rect><rect x="230" y="234" width="387.3" height="18" fill="#9e2b2b"></rect><text x="894" y="248" font-size="13" font-weight="600" fill="#16283a">59,0%</text></svg></div>
+        <div class="gulir"><table class="data" id="tblUnit"><thead><tr><th>Unit pengampu</th><th class="n">Pagu</th><th class="n">Blokir</th><th class="n">Realisasi</th><th class="n">% real.</th><th class="n">Sisa</th><th>Status</th></tr></thead><tbody><tr><td class="lebar">Subbagian Umum</td><td class="n num">1.460.979.000</td><td class="n num">0</td><td class="n num">1.113.378.242</td><td class="n num">76,2%</td><td class="n num">347.600.758</td><td><span class="status capai">Di atas target</span></td></tr><tr><td class="lebar">Seksi Pengelolaan Kekayaan Negara</td><td class="n num">104.572.000</td><td class="n num">0</td><td class="n num">57.638.296</td><td class="n num">55,1%</td><td class="n num">46.933.704</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td class="lebar">Seksi Piutang Negara</td><td class="n num">42.107.000</td><td class="n num">0</td><td class="n num">22.648.690</td><td class="n num">53,8%</td><td class="n num">19.458.310</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td class="lebar">Seksi Hukum dan Informasi</td><td class="n num">61.200.000</td><td class="n num">0</td><td class="n num">23.672.397</td><td class="n num">38,7%</td><td class="n num">37.527.603</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td class="lebar">Seksi Kepatuhan Internal</td><td class="n num">3.592.000</td><td class="n num">0</td><td class="n num">0</td><td class="n num">0,0%</td><td class="n num">3.592.000</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td class="lebar">Kelompok Jafung Pelelang</td><td class="n num">60.220.000</td><td class="n num">0</td><td class="n num">50.894.201</td><td class="n num">84,5%</td><td class="n num">9.325.799</td><td><span class="status capai">Di atas target</span></td></tr><tr><td class="lebar">Kelompok Jafung Penilai</td><td class="n num">69.333.000</td><td class="n num">0</td><td class="n num">40.932.955</td><td class="n num">59,0%</td><td class="n num">28.400.045</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr class="jumlah"><td>Jumlah</td><td class="n num">1.802.003.000</td><td class="n num">0</td><td class="n num">1.309.164.781</td><td class="n num">72,7%</td><td class="n num">492.838.219</td><td><span class="status capai">Di atas target</span></td></tr></tbody></table></div>
+      </section>
+
+      <section class="panel">
+        <h2>Realisasi per jenis belanja</h2>
+        <div class="bagan">
+          <div class="gulir"><table class="data" id="tblJenis"><thead><tr><th>Jenis belanja</th><th class="n">Pagu</th><th class="n">Realisasi</th><th class="n">% real.</th><th class="n">Sisa</th><th class="n">Porsi pagu</th></tr></thead><tbody><tr><td class="lebar">Belanja Operasional Kantor</td><td class="n num">597.628.000</td><td class="n num">442.522.720</td><td class="n num">74,0%</td><td class="n num">155.105.280</td><td class="n num">33,2%</td></tr><tr><td class="lebar">Honorarium</td><td class="n num">98.640.000</td><td class="n num">63.760.000</td><td class="n num">64,6%</td><td class="n num">34.880.000</td><td class="n num">5,5%</td></tr><tr><td class="lebar">Bahan dan Konsumsi Rapat</td><td class="n num">37.111.000</td><td class="n num">32.053.301</td><td class="n num">86,4%</td><td class="n num">5.057.699</td><td class="n num">2,1%</td></tr><tr><td class="lebar">Belanja Non Operasional Lainnya</td><td class="n num">32.410.000</td><td class="n num">726.412</td><td class="n num">2,2%</td><td class="n num">31.683.588</td><td class="n num">1,8%</td></tr><tr><td class="lebar">Persediaan (ATK)</td><td class="n num">128.685.000</td><td class="n num">91.590.224</td><td class="n num">71,2%</td><td class="n num">37.094.776</td><td class="n num">7,1%</td></tr><tr><td class="lebar">Pemeliharaan</td><td class="n num">337.214.000</td><td class="n num">230.470.285</td><td class="n num">68,3%</td><td class="n num">106.743.715</td><td class="n num">18,7%</td></tr><tr><td class="lebar">Perjalanan Dinas</td><td class="n num">314.115.000</td><td class="n num">192.924.923</td><td class="n num">61,4%</td><td class="n num">121.190.077</td><td class="n num">17,4%</td></tr><tr><td class="lebar">Belanja Modal</td><td class="n num">256.200.000</td><td class="n num">255.116.916</td><td class="n num">99,6%</td><td class="n num">1.083.084</td><td class="n num">14,2%</td></tr><tr class="jumlah"><td>Jumlah</td><td class="n num">1.802.003.000</td><td class="n num">1.309.164.781</td><td class="n num">72,7%</td><td class="n num">492.838.219</td><td class="n num">100,0%</td></tr></tbody></table></div>
+          <div>
+            <div id="donat"><svg viewBox="0 0 220 220" role="img" aria-label="Porsi pagu per jenis belanja"><path d="M110.00 24.00 A86 86 0 0 1 184.93 152.21 L155.31 135.52 A52 52 0 0 0 110.00 58.00 Z" fill="#16283a"><title>Belanja Operasional Kantor — 33,2%</title></path><path d="M184.93 152.21 A86 86 0 0 1 166.31 175.00 L144.05 149.30 A52 52 0 0 0 155.31 135.52 Z" fill="#2e5d86"><title>Honorarium — 5,5%</title></path><path d="M166.31 175.00 A86 86 0 0 1 157.45 181.72 L138.69 153.37 A52 52 0 0 0 144.05 149.30 Z" fill="#4a8db8"><title>Bahan dan Konsumsi Rapat — 2,1%</title></path><path d="M157.45 181.72 A86 86 0 0 1 149.06 186.62 L133.62 156.33 A52 52 0 0 0 138.69 153.37 Z" fill="#7ab0cf"><title>Belanja Non Operasional Lainnya — 1,8%</title></path><path d="M149.06 186.62 A86 86 0 0 1 111.96 195.98 L111.18 161.99 A52 52 0 0 0 133.62 156.33 Z" fill="#0f6b4f"><title>Persediaan (ATK) — 7,1%</title></path><path d="M111.96 195.98 A86 86 0 0 1 31.40 144.89 L62.47 131.10 A52 52 0 0 0 111.18 161.99 Z" fill="#5a9178"><title>Pemeliharaan — 18,7%</title></path><path d="M31.40 144.89 A86 86 0 0 1 42.99 56.09 L69.48 77.40 A52 52 0 0 0 62.47 131.10 Z" fill="#8a6a16"><title>Perjalanan Dinas — 17,4%</title></path><path d="M42.99 56.09 A86 86 0 0 1 110.00 24.00 L110.00 58.00 A52 52 0 0 0 69.48 77.40 Z" fill="#9e2b2b"><title>Belanja Modal — 14,2%</title></path><text x="110" y="105" text-anchor="middle" font-size="13" fill="#5d7186">pagu</text><text x="110" y="126" text-anchor="middle" font-size="16" font-weight="700" fill="#16283a">1.802 jt</text></svg></div>
+            <ul class="legenda" id="legendaJenis"><li><span class="kotak" style="background:#16283a"></span><span class="nm">Belanja Operasional Kantor</span><span class="ps num">33,2%</span></li><li><span class="kotak" style="background:#2e5d86"></span><span class="nm">Honorarium</span><span class="ps num">5,5%</span></li><li><span class="kotak" style="background:#4a8db8"></span><span class="nm">Bahan dan Konsumsi Rapat</span><span class="ps num">2,1%</span></li><li><span class="kotak" style="background:#7ab0cf"></span><span class="nm">Belanja Non Operasional Lainnya</span><span class="ps num">1,8%</span></li><li><span class="kotak" style="background:#0f6b4f"></span><span class="nm">Persediaan (ATK)</span><span class="ps num">7,1%</span></li><li><span class="kotak" style="background:#5a9178"></span><span class="nm">Pemeliharaan</span><span class="ps num">18,7%</span></li><li><span class="kotak" style="background:#8a6a16"></span><span class="nm">Perjalanan Dinas</span><span class="ps num">17,4%</span></li><li><span class="kotak" style="background:#9e2b2b"></span><span class="nm">Belanja Modal</span><span class="ps num">14,2%</span></li></ul>
+          </div>
+        </div>
+        <p class="ket">Lingkaran menggambarkan porsi pagu tiap jenis belanja terhadap pagu satker, bukan tingkat realisasinya.</p>
+      </section>
+
+      <section class="panel">
+        <h2>Lima item dengan sisa terbesar yang realisasinya masih di bawah target</h2>
+        <div class="gulir"><table class="data" id="tblSisa"><thead><tr><th>Uraian item</th><th>Unit pengampu</th><th>Rincian output</th><th class="n">Pagu</th><th class="n">Realisasi</th><th class="n">% real.</th><th class="n">Sisa</th></tr></thead><tbody><tr><td class="lebar">Honorarium Satpam dan Pengemudi Kalimantan Timur</td><td>Subbagian Umum</td><td>EBA.994</td><td class="n num">108.602.000</td><td class="n num">75.186.000</td><td class="n num">69,2%</td><td class="n num">33.416.000</td></tr><tr><td class="lebar">ATK - Toner dan Tinta Printer</td><td>Subbagian Umum</td><td>EBA.994</td><td class="n num">40.000.000</td><td class="n num">18.500.000</td><td class="n num">46,3%</td><td class="n num">21.500.000</td></tr><tr><td class="lebar">keperluan Sehari-hari Perkantoran kurang 40 Pegawai (Kalimantan Timur)</td><td>Subbagian Umum</td><td>EBA.994</td><td class="n num">60.440.000</td><td class="n num">39.800.540</td><td class="n num">65,9%</td><td class="n num">20.639.460</td></tr><tr><td class="lebar">Pemeliharaan Printer</td><td>Subbagian Umum</td><td>EBA.994</td><td class="n num">19.320.000</td><td class="n num">1.750.000</td><td class="n num">9,1%</td><td class="n num">17.570.000</td></tr><tr><td class="lebar">Pakaian Dinas Pegawai/Perawat (Kalimantan Timur)</td><td>Seksi Hukum dan Informasi</td><td>BMB.001</td><td class="n num">16.000.000</td><td class="n num">0</td><td class="n num">0,0%</td><td class="n num">16.000.000</td></tr></tbody></table></div>
+      </section>
+
+      <section class="panel">
+        <h2>Ringkasan seluruh rincian output</h2>
+        <div class="gulir"><table class="data" id="tblOutput"><thead><tr><th>Kode</th><th>Rincian output</th><th>Unit pengampu</th><th class="n">Pagu</th><th class="n">Realisasi</th><th class="n">% real.</th><th class="n">Sisa</th><th>Status</th></tr></thead><tbody><tr><td>EBA.002</td><td class="lebar">Kerumahtanggaan</td><td>Subbagian Umum</td><td class="n num">43.812.000</td><td class="n num">31.118.097</td><td class="n num">71,0%</td><td class="n num">12.693.903</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>EBA.994</td><td class="lebar">Layanan Perkantoran</td><td>Subbagian Umum</td><td class="n num">1.160.967.000</td><td class="n num">827.143.229</td><td class="n num">71,2%</td><td class="n num">333.823.771</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>EBB.001</td><td class="lebar">Peralatan Fasilitas Perkantoran</td><td>Subbagian Umum</td><td class="n num">63.200.000</td><td class="n num">62.759.208</td><td class="n num">99,3%</td><td class="n num">440.792</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>EBB.004</td><td class="lebar">Gedung/Bangunan</td><td>Subbagian Umum</td><td class="n num">193.000.000</td><td class="n num">192.357.708</td><td class="n num">99,7%</td><td class="n num">642.292</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>AAH.001</td><td class="lebar">Keputusan Permohonan Pengelolaan Kekayaan Negara</td><td>Seksi Pengelolaan Kekayaan Negara</td><td class="n num">32.420.000</td><td class="n num">13.401.585</td><td class="n num">41,3%</td><td class="n num">19.018.415</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>ABA.002</td><td class="lebar">Rekomendasi Hasil Kajian Portofolio Aset</td><td>Seksi Pengelolaan Kekayaan Negara</td><td class="n num">7.512.000</td><td class="n num">7.012.000</td><td class="n num">93,3%</td><td class="n num">500.000</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>ABA.003</td><td class="lebar">Optimalisasi Pengelolaan Aset Negara</td><td>Seksi Pengelolaan Kekayaan Negara</td><td class="n num">7.512.000</td><td class="n num">816.000</td><td class="n num">10,9%</td><td class="n num">6.696.000</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>AEF.I01</td><td class="lebar">Sosialisasi Pengelolaan Kekayaan Negara</td><td>Seksi Pengelolaan Kekayaan Negara</td><td class="n num">9.044.000</td><td class="n num">8.360.000</td><td class="n num">92,4%</td><td class="n num">684.000</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>FAE.004</td><td class="lebar">Rekomendasi di Bidang Kekayaan Negara</td><td>Seksi Pengelolaan Kekayaan Negara</td><td class="n num">16.212.000</td><td class="n num">14.983.110</td><td class="n num">92,4%</td><td class="n num">1.228.890</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>FAE.301</td><td class="lebar">Rekomendasi BMN Berupa Tanah yang Disertipikatkan (PU)</td><td>Seksi Pengelolaan Kekayaan Negara</td><td class="n num">15.024.000</td><td class="n num">11.433.601</td><td class="n num">76,1%</td><td class="n num">3.590.399</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>FAK.001</td><td class="lebar">Aset BUN yang Dikelola</td><td>Seksi Pengelolaan Kekayaan Negara</td><td class="n num">16.848.000</td><td class="n num">1.632.000</td><td class="n num">9,7%</td><td class="n num">15.216.000</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>AAH.002</td><td class="lebar">Keputusan Hasil Pengurusan/Pengelolaan Piutang Negara</td><td>Seksi Piutang Negara</td><td class="n num">36.435.000</td><td class="n num">19.886.190</td><td class="n num">54,6%</td><td class="n num">16.548.810</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>AEF.002</td><td class="lebar">Sosialisasi Pengelolaan Piutang Negara</td><td>Seksi Piutang Negara</td><td class="n num">5.672.000</td><td class="n num">2.762.500</td><td class="n num">48,7%</td><td class="n num">2.909.500</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>BMB.001</td><td class="lebar">Pembinaan/Edukasi Publik</td><td>Seksi Hukum dan Informasi</td><td class="n num">18.120.000</td><td class="n num">1.950.000</td><td class="n num">10,8%</td><td class="n num">16.170.000</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>BMB.002</td><td class="lebar">Kehumasan</td><td>Seksi Hukum dan Informasi</td><td class="n num">1.494.000</td><td class="n num">819.000</td><td class="n num">54,8%</td><td class="n num">675.000</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>EBA.969</td><td class="lebar">Layanan Bantuan Hukum</td><td>Seksi Hukum dan Informasi</td><td class="n num">41.586.000</td><td class="n num">20.903.397</td><td class="n num">50,3%</td><td class="n num">20.682.603</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>EBD.001</td><td class="lebar">Rekomendasi Kepatuhan Internal</td><td>Seksi Kepatuhan Internal</td><td class="n num">3.592.000</td><td class="n num">0</td><td class="n num">0,0%</td><td class="n num">3.592.000</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>AEF.003</td><td class="lebar">Sosialisasi/Edukasi di Bidang Lelang</td><td>Kelompok Jafung Pelelang</td><td class="n num">7.225.000</td><td class="n num">7.110.000</td><td class="n num">98,4%</td><td class="n num">115.000</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>BAH.001</td><td class="lebar">Risalah Lelang</td><td>Kelompok Jafung Pelelang</td><td class="n num">34.552.000</td><td class="n num">26.288.900</td><td class="n num">76,1%</td><td class="n num">8.263.100</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>FAE.007</td><td class="lebar">Penggalian Potensi Lelang</td><td>Kelompok Jafung Pelelang</td><td class="n num">18.443.000</td><td class="n num">17.495.301</td><td class="n num">94,9%</td><td class="n num">947.699</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>BAH.002</td><td class="lebar">Laporan Penilaian</td><td>Kelompok Jafung Penilai</td><td class="n num">60.189.000</td><td class="n num">39.744.955</td><td class="n num">66,0%</td><td class="n num">20.444.045</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>FAE.005</td><td class="lebar">Rekomendasi Hasil Penilaian</td><td>Kelompok Jafung Penilai</td><td class="n num">9.144.000</td><td class="n num">1.188.000</td><td class="n num">13,0%</td><td class="n num">7.956.000</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr class="jumlah"><td></td><td>Jumlah</td><td></td><td class="n num">1.802.003.000</td><td class="n num">1.309.164.781</td><td class="n num">72,7%</td><td class="n num">492.838.219</td><td><span class="status capai">Di atas target</span></td></tr></tbody></table></div>
+      </section>
+    </div>
+
+    <!-- ============ TELUSUR ============ -->
+    <div id="tab-telusur" class="sembunyi">
+      <section class="panel">
+        <div class="medan">
+          <div>
+            <label class="baris" for="pilihRo">Rincian output</label>
+            <select id="pilihRo"><optgroup label="Subbagian Umum"><option value="EBA.002">EBA.002 — Kerumahtanggaan</option><option value="EBA.994">EBA.994 — Layanan Perkantoran</option><option value="EBB.001">EBB.001 — Peralatan Fasilitas Perkantoran</option><option value="EBB.004">EBB.004 — Gedung/Bangunan</option></optgroup><optgroup label="Seksi Pengelolaan Kekayaan Negara"><option value="AAH.001">AAH.001 — Keputusan Permohonan Pengelolaan Kekayaan Negara</option><option value="ABA.002">ABA.002 — Rekomendasi Hasil Kajian Portofolio Aset</option><option value="ABA.003">ABA.003 — Optimalisasi Pengelolaan Aset Negara</option><option value="AEF.I01">AEF.I01 — Sosialisasi Pengelolaan Kekayaan Negara</option><option value="FAE.004">FAE.004 — Rekomendasi di Bidang Kekayaan Negara</option><option value="FAE.301">FAE.301 — Rekomendasi BMN Berupa Tanah yang Disertipikatkan (PU)</option><option value="FAK.001">FAK.001 — Aset BUN yang Dikelola</option></optgroup><optgroup label="Seksi Piutang Negara"><option value="AAH.002">AAH.002 — Keputusan Hasil Pengurusan/Pengelolaan Piutang Negara</option><option value="AEF.002">AEF.002 — Sosialisasi Pengelolaan Piutang Negara</option></optgroup><optgroup label="Seksi Hukum dan Informasi"><option value="BMB.001">BMB.001 — Pembinaan/Edukasi Publik</option><option value="BMB.002">BMB.002 — Kehumasan</option><option value="EBA.969">EBA.969 — Layanan Bantuan Hukum</option></optgroup><optgroup label="Seksi Kepatuhan Internal"><option value="EBD.001">EBD.001 — Rekomendasi Kepatuhan Internal</option></optgroup><optgroup label="Kelompok Jafung Pelelang"><option value="AEF.003">AEF.003 — Sosialisasi/Edukasi di Bidang Lelang</option><option value="BAH.001">BAH.001 — Risalah Lelang</option><option value="FAE.007">FAE.007 — Penggalian Potensi Lelang</option></optgroup><optgroup label="Kelompok Jafung Penilai"><option value="BAH.002">BAH.002 — Laporan Penilaian</option><option value="FAE.005">FAE.005 — Rekomendasi Hasil Penilaian</option></optgroup></select>
+          </div>
+          <div>
+            <label class="baris">Unit pengampu</label>
+            <p class="num" id="roUnit" style="margin:6px 0 0;font-weight:600">Subbagian Umum</p>
+          </div>
+          <div>
+            <label class="baris">Kegiatan</label>
+            <p class="num" id="roKeg" style="margin:6px 0 0;font-weight:600">WA.4701 — Pengelolaan Keuangan, BMN, dan Umum</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="hero">
+          <div>
+            <p class="angka-besar"><span id="roPersen">71,0</span><small>%</small></p>
+            <p class="kabar" id="roKabar">Output ini <b>1,03 persen poin di atas</b> target tertimbang satker.</p>
+            <div class="rel capai" id="relRo"><div class="isi" style="width: 71.03%;"></div><div class="tanda" style="display: block; left: 70%;"></div></div>
+            <div class="skala"><span>0%</span><span id="roLabelTarget">target 70,0%</span><span>100%</span></div>
+          </div>
+          <table class="ringkas">
+            <tbody><tr><td>Pagu output</td><td class="num" id="roPagu">43.812.000</td></tr>
+            <tr><td>Realisasi s.d. periode</td><td class="num" id="roReal">31.118.097</td></tr>
+            <tr><td>Realisasi bulan berjalan</td><td class="num" id="roBulan">0</td></tr>
+            <tr><td>Sisa anggaran</td><td class="num" id="roSisa">12.693.903</td></tr>
+            <tr><td>Jumlah item</td><td class="num" id="roItem">10</td></tr>
+            <tr><td>Item belum terealisasi</td><td class="num" id="roBelum">1</td></tr>
+          </tbody></table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Progres per akun belanja</h2>
+        <div class="gulir"><table class="data" id="tblAkunRo"><thead><tr><th>Akun</th><th>Nama akun (BAS)</th><th>Jenis belanja</th><th class="n">Pagu</th><th class="n">Realisasi</th><th>Progres</th><th class="n">% real.</th><th class="n">Sisa</th><th>Status</th></tr></thead><tbody><tr><td>521211</td><td class="lebar">Belanja Bahan</td><td>Bahan dan Konsumsi Rapat</td><td class="n num">10.500.000</td><td class="n num">9.730.500</td><td><div class="rel rel-kecil capai"><div class="isi" style="width:92.67%"></div><div class="tanda" style="left:70.00%"></div></div></td><td class="n num">92,7%</td><td class="n num">769.500</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>524111</td><td class="lebar">Belanja Perjalanan Dinas Biasa</td><td>Perjalanan Dinas</td><td class="n num">26.784.000</td><td class="n num">15.919.597</td><td><div class="rel rel-kecil kurang"><div class="isi" style="width:59.44%"></div><div class="tanda" style="left:70.00%"></div></div></td><td class="n num">59,4%</td><td class="n num">10.864.403</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>524113</td><td class="lebar">Belanja Perjalanan Dinas Dalam Kota</td><td>Perjalanan Dinas</td><td class="n num">6.528.000</td><td class="n num">5.468.000</td><td><div class="rel rel-kecil capai"><div class="isi" style="width:83.76%"></div><div class="tanda" style="left:70.00%"></div></div></td><td class="n num">83,8%</td><td class="n num">1.060.000</td><td><span class="status capai">Di atas target</span></td></tr><tr class="jumlah"><td></td><td>Jumlah output</td><td></td><td class="n num">43.812.000</td><td class="n num">31.118.097</td><td></td><td class="n num">71,0%</td><td class="n num">12.693.903</td><td><span class="status capai">Di atas target</span></td></tr></tbody></table></div>
+      </section>
+
+      <section class="panel">
+        <h2>Detail item belanja</h2>
+        <div class="gulir"><table class="data" id="tblItemRo"><thead><tr><th>Kode</th><th>Akun</th><th>Sub komponen</th><th>Uraian item</th><th class="n">Pagu</th><th class="n">Blokir</th><th class="n">S.d. bln lalu</th><th class="n">Bulan ini</th><th class="n">Realisasi</th><th class="n">% real.</th><th class="n">Sisa</th><th>Status</th></tr></thead><tbody><tr><td>000194</td><td>521211</td><td>Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan</td><td class="lebar">KDM - Makan Rapat Biasa (Kalimantan Timur)</td><td class="n num">6.750.000</td><td class="n num">0</td><td class="n num">6.664.000</td><td class="n num">0</td><td class="n num">6.664.000</td><td class="n num">98,7%</td><td class="n num">86.000</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>000195</td><td>521211</td><td>Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan</td><td class="lebar">KDM - Snack Rapat Biasa (Kalimantan Timur)</td><td class="n num">3.750.000</td><td class="n num">0</td><td class="n num">3.066.500</td><td class="n num">0</td><td class="n num">3.066.500</td><td class="n num">81,8%</td><td class="n num">683.500</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>000144</td><td>524111</td><td>Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan</td><td class="lebar">Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)</td><td class="n num">6.192.000</td><td class="n num">0</td><td class="n num">4.528.000</td><td class="n num">0</td><td class="n num">4.528.000</td><td class="n num">73,1%</td><td class="n num">1.664.000</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>000145</td><td>524111</td><td>Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan</td><td class="lebar">Biaya Penginapan Perjalanan Dinas Pejabat Eselon III/Golongan IV (KALIMANTAN TIMUR)</td><td class="n num">6.000.000</td><td class="n num">0</td><td class="n num">3.368.664</td><td class="n num">0</td><td class="n num">3.368.664</td><td class="n num">56,1%</td><td class="n num">2.631.336</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>000146</td><td>524111</td><td>Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan</td><td class="lebar">Satuan biaya transportasi darat dari Balikpapan ke Luar Kota</td><td class="n num">1.200.000</td><td class="n num">0</td><td class="n num">32.500</td><td class="n num">0</td><td class="n num">32.500</td><td class="n num">2,7%</td><td class="n num">1.167.500</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>000148</td><td>524111</td><td>Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan</td><td class="lebar">Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)</td><td class="n num">6.192.000</td><td class="n num">0</td><td class="n num">4.740.000</td><td class="n num">0</td><td class="n num">4.740.000</td><td class="n num">76,6%</td><td class="n num">1.452.000</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>000149</td><td>524111</td><td>Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan</td><td class="lebar">Biaya Penginapan Perjalanan Dinas Pejabat Eselon III/Golongan IV (KALIMANTAN TIMUR)</td><td class="n num">6.000.000</td><td class="n num">0</td><td class="n num">3.250.433</td><td class="n num">0</td><td class="n num">3.250.433</td><td class="n num">54,2%</td><td class="n num">2.749.567</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>000150</td><td>524111</td><td>Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan</td><td class="lebar">Satuan biaya transportasi darat dari Balikpapan ke Luar Kota</td><td class="n num">1.200.000</td><td class="n num">0</td><td class="n num">0</td><td class="n num">0</td><td class="n num">0</td><td class="n num">0,0%</td><td class="n num">1.200.000</td><td><span class="status kurang">Perlu percepatan</span></td></tr><tr><td>000152</td><td>524113</td><td>Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan</td><td class="lebar">Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)</td><td class="n num">3.264.000</td><td class="n num">0</td><td class="n num">3.020.000</td><td class="n num">0</td><td class="n num">3.020.000</td><td class="n num">92,5%</td><td class="n num">244.000</td><td><span class="status capai">Di atas target</span></td></tr><tr><td>000203</td><td>524113</td><td>Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan</td><td class="lebar">Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)</td><td class="n num">3.264.000</td><td class="n num">0</td><td class="n num">2.448.000</td><td class="n num">0</td><td class="n num">2.448.000</td><td class="n num">75,0%</td><td class="n num">816.000</td><td><span class="status capai">Di atas target</span></td></tr><tr class="jumlah"><td></td><td></td><td></td><td>Jumlah</td><td class="n num">43.812.000</td><td class="n num">0</td><td class="n num">31.118.097</td><td class="n num">0</td><td class="n num">31.118.097</td><td class="n num">71,0%</td><td class="n num">12.693.903</td><td><span class="status capai">Di atas target</span></td></tr></tbody></table></div>
+      </section>
+    </div>
+
+    <!-- ============ PARAMETER ============ -->
+    
+  </div>
+</div>
+
+
+<script>
+/* ============================================================
+   1. Pembacaan file Laporan Fa
+   ============================================================ */
+const RE_ITEM = /^(\d{6})\.\s*(.*)$/;
+const RE_RO = /^[A-Z]{3}\.[A-Z0-9]{3}$/;
+const RE_KEG = /^[A-Z]{2}\.\d{4}$/;
+const RE_AKUN = /^\d{6}$/;
+const RE_SUBKOMP = /^\d{3}\.\d[A-Z0-9]$/;
+const KIRI = 16;
+const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+function teks(v){ return v===null||v===undefined ? '' : String(v).replace(/\s+/g,' ').trim(); }
+
+function angka(v){
+  if(v===null||v===undefined||v==='') return 0;
+  if(typeof v==='number') return isFinite(v)?v:0;
+  let s=String(v).trim().replace(/\s|Rp|\u00a0/gi,'');
+  if(!s) return 0;
+  let negatif=false;
+  if(/^\(.*\)$/.test(s)){negatif=true;s=s.slice(1,-1);}
+  if(s.startsWith('-')){negatif=true;s=s.slice(1);}
+  if(!/\d/.test(s)) return 0;
+  const titik=s.lastIndexOf('.'), koma=s.lastIndexOf(',');
+  if(titik>=0&&koma>=0){
+    if(koma>titik) s=s.replace(/\./g,'').replace(',','.');
+    else s=s.replace(/,/g,'');
+  }else if(koma>=0){
+    s=(s.length-koma-1)===3&&/^\d{1,3}(,\d{3})+$/.test(s)?s.replace(/,/g,''):s.replace(',','.');
+  }else if(titik>=0){
+    if(/^\d{1,3}(\.\d{3})+$/.test(s)) s=s.replace(/\./g,'');
+  }
+  const n=parseFloat(s);
+  return isNaN(n)?0:(negatif?-n:n);
+}
+
+function bilangan(v){
+  if(typeof v==='number') return true;
+  const s=teks(v);
+  return s!==''&&/^-?[\d.,]+$/.test(s)&&!isNaN(parseFloat(s.replace(/,/g,'.')));
+}
+
+/* Judul kolom pada ekspor OMSPAN kerap berada di kolom yang berbeda dari
+   kolom angkanya karena sel gabungan. Judulnya dicari lebih dulu, lalu
+   kolom angka dipilih dari kolom terdekat yang paling konsisten berisi
+   bilangan pada baris-baris item. */
+function cariKolomNilai(grid,barisItem){
+  const judul={
+    pagu:['pagu revisi','pagu'],
+    blokir:['lock pagu','blokir','lock'],
+    lalu:['periode lalu','realisasi periode lalu'],
+    ini:['periode ini','realisasi periode ini']
+  };
+  const posJudul={};
+  for(let r=0;r<Math.min(grid.length,40);r++){
+    const baris=grid[r]||[];
+    for(let c=0;c<baris.length;c++){
+      const s=teks(baris[c]).toLowerCase();
+      if(!s) continue;
+      for(const k of Object.keys(judul)){
+        if(posJudul[k]!==undefined) continue;
+        if(judul[k].some(j=>s===j)) posJudul[k]=c;
+      }
+    }
+  }
+  const contoh=barisItem.slice(0,Math.min(30,barisItem.length));
+  const skor=c=>contoh.reduce((n,r)=>n+(bilangan((grid[r]||[])[c])?1:0),0);
+  const hasil={};
+  for(const k of Object.keys(judul)){
+    const asal=posJudul[k];
+    if(asal===undefined){hasil[k]=null;continue;}
+    let terbaik=null,nilaiTerbaik=-1;
+    for(let d=0;d<=3;d++){
+      for(const c of [asal-d,asal+d]){
+        if(c<0) continue;
+        if(Object.values(hasil).includes(c)) continue;
+        const s=skor(c);
+        if(s>nilaiTerbaik){nilaiTerbaik=s;terbaik=c;}
+      }
+      if(nilaiTerbaik>=contoh.length*0.6) break;
+    }
+    hasil[k]=nilaiTerbaik>0?terbaik:null;
+  }
+  return hasil;
+}
+
+function bacaLaporanFa(grid){
+  const catatan=[];
+  const barisItem=[];
+  for(let r=0;r<grid.length;r++){
+    const baris=grid[r]||[];
+    for(let c=0;c<Math.min(baris.length,KIRI);c++){
+      if(RE_ITEM.test(teks(baris[c]))){barisItem.push(r);break;}
+    }
+  }
+  if(!barisItem.length)
+    throw new Error('Tidak ditemukan baris item dengan pola 000001. Uraian. Pastikan yang dipilih adalah Laporan Ketersediaan Dana Detail (Fa) 16 Segmen, bukan laporan lain.');
+
+  const kolom=cariKolomNilai(grid,barisItem);
+  for(const k of ['pagu','lalu','ini'])
+    if(kolom[k]===null) throw new Error('Kolom '+k+' tidak terbaca dari file ekspor. Kemungkinan judul kolomnya berubah.');
+
+  let bulan=null,tahun=null;
+  for(let r=0;r<Math.min(grid.length,12);r++){
+    for(const sel of (grid[r]||[]).slice(0,KIRI)){
+      const s=teks(sel).toLowerCase();
+      if(!bulan){
+        const m=s.match(/periode\s+([a-z]+)\s*(\d{4})?/);
+        if(m){
+          const i=BULAN.map(x=>x.toLowerCase()).indexOf(m[1]);
+          if(i>=0){bulan=i+1; if(m[2]) tahun=parseInt(m[2],10);}
+        }
+      }
+      if(!tahun){const t=s.match(/ta\s*(\d{4})/); if(t) tahun=parseInt(t[1],10);}
+    }
+  }
+
+  let kontrol=null;
+  for(let r=0;r<grid.length;r++){
+    const baris=grid[r]||[];
+    if(baris.slice(0,KIRI).some(v=>teks(v).toUpperCase().startsWith('JUMLAH SELURUHNYA'))){
+      const lalu=angka(baris[kolom.lalu]),ini=angka(baris[kolom.ini]);
+      kontrol={pagu:angka(baris[kolom.pagu]),blokir:kolom.blokir===null?0:angka(baris[kolom.blokir]),lalu,ini,sd:lalu+ini};
+      break;
+    }
+  }
+  if(!kontrol) catatan.push('Baris JUMLAH SELURUHNYA tidak ditemukan sehingga hasil pembacaan tidak dapat dicocokkan dengan total laporan.');
+
+  const kon={keg:'',kegNama:'',ro:'',roNama:'',subKomp:'',akun:'',akunNama:''};
+  const item=[];
+  for(let r=0;r<grid.length;r++){
+    const baris=grid[r]||[];
+    const kiri=[];
+    for(let c=0;c<Math.min(baris.length,KIRI);c++){
+      const s=teks(baris[c]);
+      if(s) kiri.push(s);
+    }
+    if(!kiri.length) continue;
+    const kode=kiri[0], nama=kiri.length>1?kiri[1]:'';
+    const mItem=kode.match(RE_ITEM);
+    if(mItem){
+      const lalu=angka(baris[kolom.lalu]),ini=angka(baris[kolom.ini]);
+      item.push({
+        kode:mItem[1],uraian:mItem[2],
+        kodeKeg:kon.keg,kegiatan:kon.kegNama,kodeRo:kon.ro,namaRo:kon.roNama,
+        subKomponen:kon.subKomp,kodeAkun:kon.akun,namaAkun:kon.akunNama,
+        pagu:angka(baris[kolom.pagu]),blokir:kolom.blokir===null?0:angka(baris[kolom.blokir]),
+        lalu,ini,sd:lalu+ini
+      });
+      continue;
+    }
+    if(RE_KEG.test(kode)){kon.keg=kode;kon.kegNama=nama;continue;}
+    if(RE_RO.test(kode)){kon.ro=kode;kon.roNama=nama;continue;}
+    if(RE_SUBKOMP.test(kode)){kon.subKomp=nama;continue;}
+    if(RE_AKUN.test(kode)){kon.akun=kode;kon.akunNama=nama;continue;}
+  }
+
+  const jml=f=>item.reduce((a,b)=>a+b[f],0);
+  const total={pagu:jml('pagu'),blokir:jml('blokir'),lalu:jml('lalu'),ini:jml('ini'),sd:jml('sd')};
+  let cocok=null,selisih=null;
+  if(kontrol){
+    selisih={pagu:total.pagu-kontrol.pagu,sd:total.sd-kontrol.sd};
+    cocok=Math.abs(selisih.pagu)<1&&Math.abs(selisih.sd)<1;
+  }
+  const lihat=new Set(),duplikat=[];
+  for(const x of item){ if(lihat.has(x.kode)) duplikat.push(x.kode); lihat.add(x.kode); }
+  if(duplikat.length) catatan.push('Kode item berulang: '+duplikat.slice(0,8).join(', ')+(duplikat.length>8?', dan lainnya':'')+'.');
+  const tanpaRo=item.filter(x=>!x.kodeRo).length;
+  if(tanpaRo) catatan.push(tanpaRo+' item tidak memperoleh kode rincian output saat penelusuran hierarki.');
+
+  return {item,total,kontrol,cocok,selisih,bulan,tahun,catatan};
+}
+
+/* ============================================================
+   2. Konfigurasi
+   ============================================================ */
+const KONFIG_BAWAAN={
+  satker:{nama:'KPKNL Balikpapan',kode:'537962'},
+  target:{'51':[0.20,0.50,0.75,0.95],'52':[0.15,0.50,0.70,0.90],'53':[0.10,0.40,0.70,0.90]},
+  ambang:{'51':[0.10,0.10,0.10,0],'52':[0,0,0,0],'53':[0,0,0,0]},
+  namaKelompok:{'51':'Belanja Pegawai (51)','52':'Belanja Barang (52)','53':'Belanja Modal (53)'},
+  unit:{
+    'EBA.002':'Subbagian Umum','EBA.994':'Subbagian Umum','EBB.001':'Subbagian Umum','EBB.004':'Subbagian Umum',
+    'AAH.001':'Seksi Pengelolaan Kekayaan Negara','ABA.002':'Seksi Pengelolaan Kekayaan Negara',
+    'ABA.003':'Seksi Pengelolaan Kekayaan Negara','AEF.I01':'Seksi Pengelolaan Kekayaan Negara',
+    'FAE.004':'Seksi Pengelolaan Kekayaan Negara','FAE.301':'Seksi Pengelolaan Kekayaan Negara',
+    'FAK.001':'Seksi Pengelolaan Kekayaan Negara',
+    'AAH.002':'Seksi Piutang Negara','AEF.002':'Seksi Piutang Negara',
+    'BMB.001':'Seksi Hukum dan Informasi','BMB.002':'Seksi Hukum dan Informasi','EBA.969':'Seksi Hukum dan Informasi',
+    'EBD.001':'Seksi Kepatuhan Internal',
+    'AEF.003':'Kelompok Jafung Pelelang','BAH.001':'Kelompok Jafung Pelelang','FAE.007':'Kelompok Jafung Pelelang',
+    'BAH.002':'Kelompok Jafung Penilai','FAE.005':'Kelompok Jafung Penilai'
+  },
+  urutanUnit:['Subbagian Umum','Seksi Pengelolaan Kekayaan Negara','Seksi Piutang Negara',
+    'Seksi Hukum dan Informasi','Seksi Kepatuhan Internal','Kelompok Jafung Pelelang','Kelompok Jafung Penilai'],
+  jenis:{
+    '521111':'Belanja Operasional Kantor','521113':'Belanja Operasional Kantor',
+    '521114':'Belanja Operasional Kantor','521119':'Belanja Operasional Kantor',
+    '521115':'Honorarium','522151':'Honorarium',
+    '521211':'Bahan dan Konsumsi Rapat','521219':'Belanja Non Operasional Lainnya',
+    '521811':'Persediaan (ATK)','523121':'Pemeliharaan',
+    '524111':'Perjalanan Dinas','524113':'Perjalanan Dinas',
+    '532111':'Belanja Modal','536121':'Belanja Modal'
+  },
+  urutanJenis:['Belanja Operasional Kantor','Honorarium','Bahan dan Konsumsi Rapat',
+    'Belanja Non Operasional Lainnya','Persediaan (ATK)','Pemeliharaan','Perjalanan Dinas','Belanja Modal']
+};
+
+/* ============================================================
+   3. Perhitungan
+   ============================================================ */
+const kosong=()=>({pagu:0,blokir:0,lalu:0,ini:0,sd:0});
+function tambah(a,b){a.pagu+=b.pagu;a.blokir+=b.blokir;a.lalu+=b.lalu;a.ini+=b.ini;a.sd+=b.sd;return a;}
+const persen=x=>x.pagu>0?x.sd/x.pagu:0;
+const sisa=x=>x.pagu-x.sd;
+
+function status(x,target,ambang){
+  if(x.pagu<=0) return 'Tidak dianggarkan';
+  const p=persen(x);
+  if(p>=target) return 'Di atas target';
+  if(ambang>0&&p>=target-ambang) return 'Mendekati target';
+  return 'Perlu percepatan';
+}
+
+function hitung(item,bulan,konfig){
+  const tw=Math.max(1,Math.min(4,Math.ceil(bulan/3))), idx=tw-1;
+  const baris=item.map(x=>{
+    const kel=(x.kodeAkun||'').slice(0,2);
+    return Object.assign({},x,{
+      unit:konfig.unit[x.kodeRo]||'Belum dipetakan',
+      jenis:konfig.jenis[x.kodeAkun]||'Belum dipetakan',
+      kelompok:['51','52','53'].includes(kel)?kel:'lainnya'
+    });
+  });
+
+  const kumpul=(kunci,urutan)=>{
+    const peta=new Map();
+    for(const x of baris){
+      const k=x[kunci];
+      if(!peta.has(k)) peta.set(k,Object.assign(kosong(),{nama:k}));
+      tambah(peta.get(k),x);
+    }
+    const hasil=[...peta.values()];
+    if(urutan){
+      const pos=n=>{const i=urutan.indexOf(n);return i<0?999:i;};
+      hasil.sort((a,b)=>pos(a.nama)-pos(b.nama)||a.nama.localeCompare(b.nama));
+    }
+    return hasil;
+  };
+
+  const total=baris.reduce((a,b)=>tambah(a,b),kosong());
+
+  const kelompok=['51','52','53'].map(k=>{
+    const x=baris.filter(b=>b.kelompok===k).reduce((a,b)=>tambah(a,b),kosong());
+    const target=(konfig.target[k]||[0,0,0,0])[idx];
+    const ambang=(konfig.ambang[k]||[0,0,0,0])[idx];
+    return Object.assign(x,{kode:k,nama:konfig.namaKelompok[k],target,ambang,
+      persen:persen(x),sisa:sisa(x),status:status(x,target,ambang)});
+  });
+
+  const paguKel=kelompok.reduce((a,k)=>a+k.pagu,0);
+  const targetTertimbang=paguKel>0?kelompok.reduce((a,k)=>a+k.pagu*k.target,0)/paguKel:0;
+  const ambangTertimbang=paguKel>0?kelompok.reduce((a,k)=>a+k.pagu*k.ambang,0)/paguKel:0;
+
+  const lengkapi=arr=>arr.map(x=>Object.assign(x,{
+    persen:persen(x),sisa:sisa(x),status:status(x,targetTertimbang,ambangTertimbang)}));
+
+  const unit=lengkapi(kumpul('unit',konfig.urutanUnit));
+  const jenis=lengkapi(kumpul('jenis',konfig.urutanJenis));
+
+  const petaRo=new Map();
+  for(const x of baris){
+    if(!petaRo.has(x.kodeRo))
+      petaRo.set(x.kodeRo,Object.assign(kosong(),{kode:x.kodeRo,nama:x.namaRo,unit:x.unit,
+        kodeKeg:x.kodeKeg,kegiatan:x.kegiatan,jumlahItem:0,belumRealisasi:0}));
+    const ro=petaRo.get(x.kodeRo);
+    tambah(ro,x); ro.jumlahItem++; if(x.sd<=0) ro.belumRealisasi++;
+  }
+  const posUnit=n=>{const i=konfig.urutanUnit.indexOf(n);return i<0?999:i;};
+  const output=lengkapi([...petaRo.values()]).sort((a,b)=>posUnit(a.unit)-posUnit(b.unit)||a.kode.localeCompare(b.kode));
+
+  const persenTotal=persen(total);
+  return {baris,total,kelompok,unit,jenis,output,tw,bulan,targetTertimbang,ambangTertimbang,
+    persenTotal,sisaTotal:sisa(total),deviasi:persenTotal-targetTertimbang,
+    statusSatker:status(total,targetTertimbang,ambangTertimbang)};
+}
+
+function rincianOutput(hasil,kodeRo){
+  const item=hasil.baris.filter(x=>x.kodeRo===kodeRo);
+  const ro=hasil.output.find(x=>x.kode===kodeRo);
+  const petaAkun=new Map();
+  for(const x of item){
+    if(!petaAkun.has(x.kodeAkun))
+      petaAkun.set(x.kodeAkun,Object.assign(kosong(),{kode:x.kodeAkun,nama:x.namaAkun,jenis:x.jenis}));
+    tambah(petaAkun.get(x.kodeAkun),x);
+  }
+  const akun=[...petaAkun.values()].map(a=>Object.assign(a,{persen:persen(a),sisa:sisa(a),
+    status:status(a,hasil.targetTertimbang,hasil.ambangTertimbang)})).sort((a,b)=>a.kode.localeCompare(b.kode));
+  const rinci=item.map(x=>Object.assign({},x,{persen:persen(x),sisa:sisa(x),
+    status:status(x,hasil.targetTertimbang,hasil.ambangTertimbang)}));
+  return {ro,akun,item:rinci};
+}
+
+/* ============================================================
+   4. Tampilan
+   ============================================================ */
+const rp=new Intl.NumberFormat('id-ID',{maximumFractionDigits:0});
+const ps1=new Intl.NumberFormat('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1});
+const ps2=new Intl.NumberFormat('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2});
+const el=id=>document.getElementById(id);
+const aman=s=>String(s===null||s===undefined?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const kelasStatus=s=>s==='Di atas target'?'capai':s==='Mendekati target'?'dekat':s==='Perlu percepatan'?'kurang':'netral';
+const sel=s=>'<span class="status '+kelasStatus(s)+'">'+aman(s)+'</span>';
+
+let KONFIG=JSON.parse(JSON.stringify(KONFIG_BAWAAN));
+let MENTAH=null, HASIL=null, TANGGAL=new Date(), PAJANG=false;
+
+function relKecil(p,target,st){
+  const lebar=Math.max(0,Math.min(1,p))*100;
+  return '<div class="rel rel-kecil '+kelasStatus(st)+'"><div class="isi" style="width:'+lebar.toFixed(2)+'%"></div>'+
+    (target>0?'<div class="tanda" style="left:'+(Math.min(1,target)*100).toFixed(2)+'%"></div>':'')+'</div>';
+}
+
+function pasangRel(wadah,p,target,st){
+  const kotak=el(wadah);
+  kotak.className='rel '+kelasStatus(st);
+  kotak.querySelector('.isi').style.width=(Math.max(0,Math.min(1,p))*100).toFixed(2)+'%';
+  const t=kotak.querySelector('.tanda');
+  if(target>0){t.style.display='block';t.style.left=(Math.min(1,target)*100).toFixed(2)+'%';}
+  else t.style.display='none';
+}
+
+/* ---- bagan batang per unit ---- */
+function baganBatang(data,target){
+  const tinggiBaris=34,atas=26,bawah=26,kiriLabel=230,kanan=54;
+  const lebar=940, tinggi=atas+bawah+data.length*tinggiBaris;
+  const skala=lebar-kiriLabel-kanan;
+  const warna=s=>({capai:'#0f6b4f',dekat:'#8a6a16',kurang:'#9e2b2b',netral:'#8496a6'})[kelasStatus(s)];
+  let s='<svg viewBox="0 0 '+lebar+' '+tinggi+'" role="img" aria-label="Grafik batang realisasi per unit pengampu">';
+  for(let g=0;g<=100;g+=25){
+    const x=kiriLabel+skala*g/100;
+    s+='<line x1="'+x+'" y1="'+(atas-8)+'" x2="'+x+'" y2="'+(tinggi-bawah+4)+'" stroke="#dde5eb" stroke-width="1"/>';
+    s+='<text x="'+x+'" y="'+(tinggi-bawah+18)+'" font-size="12" fill="#5d7186" text-anchor="middle">'+g+'%</text>';
+  }
+  const xt=kiriLabel+skala*Math.min(1,target);
+  s+='<line x1="'+xt+'" y1="'+(atas-14)+'" x2="'+xt+'" y2="'+(tinggi-bawah+4)+'" stroke="#16283a" stroke-width="2" stroke-dasharray="5 4"/>';
+  s+='<text x="'+xt+'" y="'+(atas-19)+'" font-size="12" font-weight="600" fill="#16283a" text-anchor="middle">target '+ps1.format(target*100)+'%</text>';
+  data.forEach((d,i)=>{
+    const y=atas+i*tinggiBaris;
+    const p=Math.max(0,Math.min(1,d.persen));
+    s+='<text x="'+(kiriLabel-12)+'" y="'+(y+16)+'" font-size="13" fill="#16283a" text-anchor="end">'+aman(d.nama.length>32?d.nama.slice(0,31)+'…':d.nama)+'</text>';
+    s+='<rect x="'+kiriLabel+'" y="'+(y+4)+'" width="'+skala+'" height="18" fill="#dfe6ec"/>';
+    s+='<rect x="'+kiriLabel+'" y="'+(y+4)+'" width="'+(skala*p).toFixed(1)+'" height="18" fill="'+warna(d.status)+'"/>';
+    s+='<text x="'+(kiriLabel+skala+8)+'" y="'+(y+18)+'" font-size="13" font-weight="600" fill="#16283a">'+ps1.format(d.persen*100)+'%</text>';
+  });
+  return s+'</svg>';
+}
+
+/* ---- donat porsi pagu ---- */
+const PALET=['#16283a','#2e5d86','#4a8db8','#7ab0cf','#0f6b4f','#5a9178','#8a6a16','#9e2b2b'];
+function donat(data,totalPagu){
+  const R=86,r=52,C=110;
+  let sudut=-Math.PI/2,s='<svg viewBox="0 0 220 220" role="img" aria-label="Porsi pagu per jenis belanja">';
+  const titik=(rad,a)=>[C+rad*Math.cos(a),C+rad*Math.sin(a)];
+  data.forEach((d,i)=>{
+    const porsi=totalPagu>0?d.pagu/totalPagu:0;
+    if(porsi<=0) return;
+    const akhir=sudut+porsi*Math.PI*2;
+    const besar=porsi>0.5?1:0;
+    const [x1,y1]=titik(R,sudut),[x2,y2]=titik(R,akhir);
+    const [x3,y3]=titik(r,akhir),[x4,y4]=titik(r,sudut);
+    s+='<path d="M'+x1.toFixed(2)+' '+y1.toFixed(2)+
+       ' A'+R+' '+R+' 0 '+besar+' 1 '+x2.toFixed(2)+' '+y2.toFixed(2)+
+       ' L'+x3.toFixed(2)+' '+y3.toFixed(2)+
+       ' A'+r+' '+r+' 0 '+besar+' 0 '+x4.toFixed(2)+' '+y4.toFixed(2)+
+       ' Z" fill="'+PALET[i%PALET.length]+'"><title>'+aman(d.nama)+' — '+ps1.format(porsi*100)+'%</title></path>';
+    sudut=akhir;
+  });
+  s+='<text x="110" y="105" text-anchor="middle" font-size="13" fill="#5d7186">pagu</text>';
+  s+='<text x="110" y="126" text-anchor="middle" font-size="16" font-weight="700" fill="#16283a">'+rp.format(totalPagu/1e6)+' jt</text>';
+  return s+'</svg>';
+}
+
+/* ---- tabel ---- */
+function tabel(kolom,baris,jumlah){
+  let s='<thead><tr>'+kolom.map(k=>'<th'+(k.n?' class="n"':'')+'>'+aman(k.j)+'</th>').join('')+'</tr></thead><tbody>';
+  s+=baris.map(b=>'<tr'+(b._kelas?' class="'+b._kelas+'"':'')+'>'+
+      kolom.map((k,i)=>'<td'+(k.n?' class="n num"':(k.lebar?' class="lebar"':''))+'>'+(b.sel[i]===undefined?'':b.sel[i])+'</td>').join('')+'</tr>').join('');
+  if(jumlah) s+='<tr class="jumlah">'+kolom.map((k,i)=>'<td'+(k.n?' class="n num"':'')+'>'+(jumlah[i]===undefined?'':jumlah[i])+'</td>').join('')+'</tr>';
+  return s+'</tbody>';
+}
+
+/* ---- rekonsiliasi ---- */
+function gambarRekon(){
+  const k=MENTAH.kontrol;
+  let s='';
+  if(!k){
+    s='<div class="rekon gagal"><div><b>Baris JUMLAH SELURUHNYA tidak ditemukan</b>'+
+      '<span class="rinci">Hasil pembacaan tidak dapat dicocokkan dengan total laporan, jadi angkanya perlu diperiksa manual.</span></div></div>';
+  }else if(MENTAH.cocok){
+    s='<div class="rekon"><div><b>Cocok dengan laporan Fa</b><span class="rinci">'+
+      MENTAH.item.length+' item terbaca. Total pagu '+rp.format(MENTAH.total.pagu)+
+      ' dan realisasi '+rp.format(MENTAH.total.sd)+' sama persis dengan baris JUMLAH SELURUHNYA.</span></div></div>';
+  }else{
+    s='<div class="rekon gagal"><div><b>Selisih terhadap laporan Fa</b><span class="rinci">'+
+      'Pagu berselisih '+rp.format(MENTAH.selisih.pagu)+' dan realisasi berselisih '+rp.format(MENTAH.selisih.sd)+
+      ' dari baris JUMLAH SELURUHNYA. Angka pada halaman ini belum bisa dipakai sebelum sebabnya ditelusuri.</span></div></div>';
+  }
+  if(MENTAH.catatan.length)
+    s+='<div class="rekon gagal"><div><b>Catatan pembacaan</b><span class="rinci">'+MENTAH.catatan.map(aman).join(' ')+'</span></div></div>';
+  const belumRo=[...new Set(HASIL.baris.filter(x=>x.unit==='Belum dipetakan').map(x=>x.kodeRo))];
+  const belumAkun=[...new Set(HASIL.baris.filter(x=>x.jenis==='Belum dipetakan').map(x=>x.kodeAkun))];
+  if(belumRo.length||belumAkun.length){
+    s+='<div class="rekon gagal"><div><b>Ada kode yang belum dipetakan</b><span class="rinci">'+
+      (belumRo.length?'Rincian output '+belumRo.map(aman).join(', ')+' belum punya unit pengampu. ':'')+
+      (belumAkun.length?'Akun '+belumAkun.map(aman).join(', ')+' belum punya jenis belanja. ':'')+
+      (PAJANG?'Angkanya tetap masuk ke total satker, tetapi belum tergabung ke unit atau jenis belanja mana pun. Sampaikan ke bendahara pengeluaran untuk dilengkapi.'
+             :'Lengkapi di tab Parameter agar tidak tercecer dari rekapitulasi.')+'</span></div></div>';
+  }
+  el('rekon').innerHTML=s;
+}
+
+/* ---- ringkasan ---- */
+function gambarRingkasan(){
+  const H=HASIL;
+  el('persenBesar').textContent=ps1.format(H.persenTotal*100);
+  const arah=H.deviasi>=0?'di atas':'di bawah';
+  el('kabarCapaian').innerHTML='Penyerapan sampai '+aman(BULAN[H.bulan-1])+' berada <b>'+
+    ps2.format(Math.abs(H.deviasi)*100)+' persen poin '+arah+'</b> target tertimbang triwulan '+
+    ['I','II','III','IV'][H.tw-1]+', yaitu '+ps1.format(H.targetTertimbang*100)+' persen.';
+  pasangRel('relUtama',H.persenTotal,H.targetTertimbang,H.statusSatker);
+  el('labelTarget').textContent='target '+ps1.format(H.targetTertimbang*100)+'%';
+
+  el('nPagu').textContent=rp.format(H.total.pagu);
+  el('nReal').textContent=rp.format(H.total.sd);
+  el('nBulan').textContent=rp.format(H.total.ini);
+  el('nSisa').textContent=rp.format(H.sisaTotal);
+  el('nBlokir').textContent=rp.format(H.total.blokir);
+  el('nTarget').textContent=ps1.format(H.targetTertimbang*100)+'%';
+
+  el('tblKelompok').innerHTML=tabel(
+    [{j:'Kelompok belanja'},{j:'Pagu'},{j:'Blokir',n:1},{j:'Realisasi',n:1},{j:'Progres'},{j:'% real.',n:1},{j:'Target',n:1},{j:'Sisa',n:1},{j:'Status'}],
+    H.kelompok.map(k=>({sel:[aman(k.nama),rp.format(k.pagu),rp.format(k.blokir),rp.format(k.sd),
+      relKecil(k.persen,k.target,k.status),ps1.format(k.persen*100)+'%',ps1.format(k.target*100)+'%',
+      rp.format(k.sisa),sel(k.status)]})),
+    ['Jumlah',rp.format(H.total.pagu),rp.format(H.total.blokir),rp.format(H.total.sd),'',
+      ps1.format(H.persenTotal*100)+'%',ps1.format(H.targetTertimbang*100)+'%',rp.format(H.sisaTotal),sel(H.statusSatker)]
+  );
+  // kolom pagu kelompok rata kanan
+  el('tblKelompok').querySelectorAll('tr').forEach(tr=>{
+    const c=tr.children[1]; if(c) c.classList.add('n','num');
+  });
+
+  el('baganUnit').innerHTML=baganBatang(H.unit,H.targetTertimbang);
+  el('tblUnit').innerHTML=tabel(
+    [{j:'Unit pengampu',lebar:1},{j:'Pagu',n:1},{j:'Blokir',n:1},{j:'Realisasi',n:1},{j:'% real.',n:1},{j:'Sisa',n:1},{j:'Status'}],
+    H.unit.map(u=>({sel:[aman(u.nama),rp.format(u.pagu),rp.format(u.blokir),rp.format(u.sd),
+      ps1.format(u.persen*100)+'%',rp.format(u.sisa),sel(u.status)]})),
+    ['Jumlah',rp.format(H.total.pagu),rp.format(H.total.blokir),rp.format(H.total.sd),
+      ps1.format(H.persenTotal*100)+'%',rp.format(H.sisaTotal),sel(H.statusSatker)]
+  );
+
+  el('tblJenis').innerHTML=tabel(
+    [{j:'Jenis belanja',lebar:1},{j:'Pagu',n:1},{j:'Realisasi',n:1},{j:'% real.',n:1},{j:'Sisa',n:1},{j:'Porsi pagu',n:1}],
+    H.jenis.map(j=>({sel:[aman(j.nama),rp.format(j.pagu),rp.format(j.sd),ps1.format(j.persen*100)+'%',
+      rp.format(j.sisa),ps1.format((H.total.pagu>0?j.pagu/H.total.pagu:0)*100)+'%']})),
+    ['Jumlah',rp.format(H.total.pagu),rp.format(H.total.sd),ps1.format(H.persenTotal*100)+'%',rp.format(H.sisaTotal),'100,0%']
+  );
+  el('donat').innerHTML=donat(H.jenis,H.total.pagu);
+  el('legendaJenis').innerHTML=H.jenis.map((j,i)=>
+    '<li><span class="kotak" style="background:'+PALET[i%PALET.length]+'"></span>'+
+    '<span class="nm">'+aman(j.nama)+'</span>'+
+    '<span class="ps num">'+ps1.format((H.total.pagu>0?j.pagu/H.total.pagu:0)*100)+'%</span></li>').join('');
+
+  const lima=H.baris.filter(x=>x.pagu>0&&persen(x)<H.targetTertimbang)
+    .map(x=>Object.assign({},x,{persen:persen(x),sisa:sisa(x)}))
+    .sort((a,b)=>b.sisa-a.sisa).slice(0,5);
+  el('tblSisa').innerHTML=tabel(
+    [{j:'Uraian item',lebar:1},{j:'Unit pengampu'},{j:'Rincian output'},{j:'Pagu',n:1},{j:'Realisasi',n:1},{j:'% real.',n:1},{j:'Sisa',n:1}],
+    lima.map(x=>({sel:[aman(x.uraian),aman(x.unit),aman(x.kodeRo),rp.format(x.pagu),rp.format(x.sd),
+      ps1.format(x.persen*100)+'%',rp.format(x.sisa)]}))
+  );
+
+  el('tblOutput').innerHTML=tabel(
+    [{j:'Kode'},{j:'Rincian output',lebar:1},{j:'Unit pengampu'},{j:'Pagu',n:1},{j:'Realisasi',n:1},{j:'% real.',n:1},{j:'Sisa',n:1},{j:'Status'}],
+    H.output.map(o=>({sel:[aman(o.kode),aman(o.nama),aman(o.unit),rp.format(o.pagu),rp.format(o.sd),
+      ps1.format(o.persen*100)+'%',rp.format(o.sisa),sel(o.status)]})),
+    ['','Jumlah','',rp.format(H.total.pagu),rp.format(H.total.sd),ps1.format(H.persenTotal*100)+'%',
+      rp.format(H.sisaTotal),sel(H.statusSatker)]
+  );
+}
+
+/* ---- telusur output ---- */
+function isiPilihanRo(){
+  const pilih=el('pilihRo');
+  const sebelum=pilih.value;
+  const grup=new Map();
+  HASIL.output.forEach(o=>{
+    if(!grup.has(o.unit)) grup.set(o.unit,[]);
+    grup.get(o.unit).push(o);
+  });
+  pilih.innerHTML=[...grup.entries()].map(([u,arr])=>
+    '<optgroup label="'+aman(u)+'">'+arr.map(o=>
+      '<option value="'+aman(o.kode)+'">'+aman(o.kode+' — '+o.nama)+'</option>').join('')+'</optgroup>').join('');
+  if(sebelum&&HASIL.output.some(o=>o.kode===sebelum)) pilih.value=sebelum;
+}
+
+function gambarTelusur(){
+  const kode=el('pilihRo').value||(HASIL.output[0]&&HASIL.output[0].kode);
+  if(!kode) return;
+  const d=rincianOutput(HASIL,kode), H=HASIL, ro=d.ro;
+  el('roUnit').textContent=ro.unit;
+  el('roKeg').textContent=ro.kodeKeg?ro.kodeKeg+' — '+ro.kegiatan:'—';
+  el('roPersen').textContent=ps1.format(ro.persen*100);
+  const dev=ro.persen-H.targetTertimbang;
+  el('roKabar').innerHTML='Output ini <b>'+ps2.format(Math.abs(dev)*100)+' persen poin '+
+    (dev>=0?'di atas':'di bawah')+'</b> target tertimbang satker.';
+  pasangRel('relRo',ro.persen,H.targetTertimbang,ro.status);
+  el('roLabelTarget').textContent='target '+ps1.format(H.targetTertimbang*100)+'%';
+  el('roPagu').textContent=rp.format(ro.pagu);
+  el('roReal').textContent=rp.format(ro.sd);
+  el('roBulan').textContent=rp.format(ro.ini);
+  el('roSisa').textContent=rp.format(ro.sisa);
+  el('roItem').textContent=rp.format(ro.jumlahItem);
+  el('roBelum').textContent=rp.format(ro.belumRealisasi);
+
+  el('tblAkunRo').innerHTML=tabel(
+    [{j:'Akun'},{j:'Nama akun (BAS)',lebar:1},{j:'Jenis belanja'},{j:'Pagu',n:1},{j:'Realisasi',n:1},{j:'Progres'},{j:'% real.',n:1},{j:'Sisa',n:1},{j:'Status'}],
+    d.akun.map(a=>({sel:[aman(a.kode),aman(a.nama),aman(a.jenis),rp.format(a.pagu),rp.format(a.sd),
+      relKecil(a.persen,H.targetTertimbang,a.status),ps1.format(a.persen*100)+'%',rp.format(a.sisa),sel(a.status)]})),
+    ['','Jumlah output','',rp.format(ro.pagu),rp.format(ro.sd),'',ps1.format(ro.persen*100)+'%',rp.format(ro.sisa),sel(ro.status)]
+  );
+
+  el('tblItemRo').innerHTML=tabel(
+    [{j:'Kode'},{j:'Akun'},{j:'Sub komponen'},{j:'Uraian item',lebar:1},{j:'Pagu',n:1},{j:'Blokir',n:1},
+     {j:'S.d. bln lalu',n:1},{j:'Bulan ini',n:1},{j:'Realisasi',n:1},{j:'% real.',n:1},{j:'Sisa',n:1},{j:'Status'}],
+    d.item.map(x=>({sel:[aman(x.kode),aman(x.kodeAkun),aman(x.subKomponen),aman(x.uraian),
+      rp.format(x.pagu),rp.format(x.blokir),rp.format(x.lalu),rp.format(x.ini),rp.format(x.sd),
+      ps1.format(x.persen*100)+'%',rp.format(x.sisa),sel(x.status)]})),
+    ['','','','Jumlah',rp.format(ro.pagu),rp.format(ro.blokir),rp.format(ro.lalu),rp.format(ro.ini),
+      rp.format(ro.sd),ps1.format(ro.persen*100)+'%',rp.format(ro.sisa),sel(ro.status)]
+  );
+}
+
+/* ---- parameter ---- */
+function gambarParameter(){
+  if(!el('pNama')) return;   // berkas pajangan tidak memuat tab parameter
+  el('pNama').value=KONFIG.satker.nama;
+  el('pKode').value=KONFIG.satker.kode;
+  el('pBulan').innerHTML=BULAN.map((b,i)=>'<option value="'+(i+1)+'"'+((i+1)===HASIL.bulan?' selected':'')+'>'+b+'</option>').join('');
+  el('pTanggal').value=TANGGAL.toISOString().slice(0,10);
+
+  const tabelAngka=(sumber,jenis)=>tabel(
+    [{j:'Kelompok belanja'},{j:'TW I',n:1},{j:'TW II',n:1},{j:'TW III',n:1},{j:'TW IV',n:1}],
+    ['51','52','53'].map(k=>({sel:[aman(KONFIG.namaKelompok[k])].concat([0,1,2,3].map(i=>
+      '<input type="number" step="0.5" min="0" max="100" data-jenis="'+jenis+'" data-kel="'+k+'" data-tw="'+i+
+      '" value="'+(sumber[k][i]*100)+'">'))}))
+  );
+  el('tblTarget').innerHTML=tabelAngka(KONFIG.target,'target');
+  el('tblAmbang').innerHTML=tabelAngka(KONFIG.ambang,'ambang');
+
+  const opsiUnit=(terpilih)=>['Belum dipetakan'].concat(KONFIG.urutanUnit)
+    .map(u=>'<option value="'+aman(u)+'"'+(u===terpilih?' selected':'')+'>'+aman(u)+'</option>').join('');
+  const roAda=HASIL.output.map(o=>o.kode);
+  const roSemua=[...new Set(roAda.concat(Object.keys(KONFIG.unit)))].sort();
+  el('tblPetaRo').innerHTML=tabel(
+    [{j:'Kode RO'},{j:'Nama output',lebar:1},{j:'Unit pengampu'},{j:'Ada di file'}],
+    roSemua.map(k=>{
+      const o=HASIL.output.find(x=>x.kode===k);
+      const u=KONFIG.unit[k]||'Belum dipetakan';
+      return {_kelas:(o&&u==='Belum dipetakan')?'belum':'',
+        sel:[aman(k),aman(o?o.nama:'—'),
+          '<select data-peta="ro" data-kode="'+aman(k)+'">'+opsiUnit(u)+'</select>',
+          o?'ya':'tidak']};
+    })
+  );
+
+  const opsiJenis=(terpilih)=>['Belum dipetakan'].concat(KONFIG.urutanJenis)
+    .map(j=>'<option value="'+aman(j)+'"'+(j===terpilih?' selected':'')+'>'+aman(j)+'</option>').join('');
+  const akunAda=[...new Set(HASIL.baris.map(x=>x.kodeAkun))];
+  const akunSemua=[...new Set(akunAda.concat(Object.keys(KONFIG.jenis)))].sort();
+  el('tblPetaAkun').innerHTML=tabel(
+    [{j:'Kode akun'},{j:'Nama akun (BAS)',lebar:1},{j:'Jenis belanja'},{j:'Ada di file'}],
+    akunSemua.map(k=>{
+      const b=HASIL.baris.find(x=>x.kodeAkun===k);
+      const j=KONFIG.jenis[k]||'Belum dipetakan';
+      return {_kelas:(b&&j==='Belum dipetakan')?'belum':'',
+        sel:[aman(k),aman(b?b.namaAkun:'—'),
+          '<select data-peta="akun" data-kode="'+aman(k)+'">'+opsiJenis(j)+'</select>',
+          b?'ya':'tidak']};
+    })
+  );
+}
+
+/* ---- perakitan ---- */
+function hitungUlang(){
+  HASIL=hitung(MENTAH.item,HASIL?HASIL.bulan:(MENTAH.bulan||new Date().getMonth()+1),KONFIG);
+  gambarSemua();
+}
+
+function gambarSemua(){
+  el('judulSatker').textContent='Realisasi Anggaran '+KONFIG.satker.nama;
+  el('subJudul').textContent='Tahun Anggaran '+(MENTAH.tahun||'')+'   •   Realisasi s.d. '+BULAN[HASIL.bulan-1]+
+    ' '+(MENTAH.tahun||'')+'   •   Diperbarui '+TANGGAL.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})+
+    '   •   Satker '+KONFIG.satker.kode;
+  gambarRekon();
+  gambarRingkasan();
+  isiPilihanRo();
+  gambarTelusur();
+  gambarParameter();
+}
+
+/* ---- muat file ---- */
+function tampilGalat(pesan){
+  const g=el('galatMuat');
+  g.textContent=pesan;
+  g.classList.remove('sembunyi');
+}
+
+function prosesBerkas(file){
+  el('galatMuat').classList.add('sembunyi');
+  if(typeof XLSX==='undefined'){
+    tampilGalat('Pustaka pembaca Excel gagal dimuat. Halaman ini memerlukan sambungan internet saat pertama kali dibuka.');
+    return;
+  }
+  const pembaca=new FileReader();
+  pembaca.onerror=()=>tampilGalat('File tidak dapat dibaca.');
+  pembaca.onload=e=>{
+    try{
+      const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const jangkauan=XLSX.utils.decode_range(ws['!ref']);
+      jangkauan.s.c=0; jangkauan.s.r=0;
+      const grid=XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:null,blankrows:true,range:jangkauan});
+      MENTAH=bacaLaporanFa(grid);
+      TANGGAL=new Date();
+      HASIL=hitung(MENTAH.item,MENTAH.bulan||new Date().getMonth()+1,KONFIG);
+      el('layarMuat').classList.add('sembunyi');
+      el('isi').classList.remove('sembunyi');
+      el('tombolCetak').classList.remove('sembunyi');
+      el('tombolSimpan').classList.remove('sembunyi');
+      gambarSemua();
+      window.scrollTo({top:0});
+    }catch(err){
+      tampilGalat(err.message||'File gagal diproses.');
+    }
+  };
+  pembaca.readAsArrayBuffer(file);
+}
+
+/* ============================================================
+   5. Berkas pajangan untuk pengguna
+   Seluruh halaman disalin apa adanya, layar impor dan tab
+   parameter dibuang, lalu datanya disisipkan sebagai JSON.
+   Hasilnya tidak lagi memerlukan pustaka pembaca Excel
+   sehingga bisa dibuka tanpa sambungan internet.
+   ============================================================ */
+function unduh(isiTeks,namaBerkas){
+  const blob=new Blob([isiTeks],{type:'text/html;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=namaBerkas;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+
+function buatBerkasPajang(){
+  const klon=document.documentElement.cloneNode(true);
+  klon.querySelectorAll('script[src]').forEach(n=>n.remove());
+  ['layarMuat','tombolMuat','tombolSimpan','berkas','tab-parameter'].forEach(id=>{
+    const n=klon.querySelector('#'+id); if(n) n.remove();
+  });
+  const tabParam=klon.querySelector('nav.tab button[data-tab="parameter"]');
+  if(tabParam) tabParam.remove();
+  const ringkasan=klon.querySelector('nav.tab button[data-tab="ringkasan"]');
+  if(ringkasan) ringkasan.setAttribute('aria-selected','true');
+  const telusur=klon.querySelector('nav.tab button[data-tab="telusur"]');
+  if(telusur) telusur.setAttribute('aria-selected','false');
+  const tabT=klon.querySelector('#tab-telusur');
+  if(tabT) tabT.classList.add('sembunyi');
+  const tabR=klon.querySelector('#tab-ringkasan');
+  if(tabR) tabR.classList.remove('sembunyi');
+  const isi=klon.querySelector('#isi');
+  if(isi) isi.classList.remove('sembunyi');
+  const cetak=klon.querySelector('#tombolCetak');
+  if(cetak) cetak.classList.remove('sembunyi');
+
+  const data=document.createElement('script');
+  data.id='dataTertanam';
+  data.type='application/json';
+  data.textContent=JSON.stringify({
+    mentah:MENTAH, konfig:KONFIG, bulan:HASIL.bulan, tanggal:TANGGAL.toISOString()
+  }).replace(/</g,'\\u003c');
+  klon.querySelector('body').appendChild(data);
+
+  unduh('<!DOCTYPE html>\n'+klon.outerHTML,'realisasi-anggaran.html');
+}
+
+/* ---- peristiwa ---- */
+const pada=(id,jenis,fn)=>{const n=el(id); if(n) n.addEventListener(jenis,fn);};
+
+pada('tombolPilih','click',()=>el('berkas').click());
+pada('tombolMuat','click',()=>el('berkas').click());
+pada('tombolCetak','click',()=>window.print());
+pada('tombolSimpan','click',buatBerkasPajang);
+pada('berkas','change',e=>{ if(e.target.files[0]) prosesBerkas(e.target.files[0]); e.target.value=''; });
+
+const layar=el('layarMuat');
+if(layar){
+  ['dragenter','dragover'].forEach(n=>layar.addEventListener(n,e=>{e.preventDefault();layar.classList.add('aktif');}));
+  ['dragleave','drop'].forEach(n=>layar.addEventListener(n,e=>{e.preventDefault();layar.classList.remove('aktif');}));
+  layar.addEventListener('drop',e=>{ const f=e.dataTransfer.files[0]; if(f) prosesBerkas(f); });
+}
+
+document.querySelectorAll('nav.tab button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('nav.tab button').forEach(x=>x.setAttribute('aria-selected',String(x===b)));
+    ['ringkasan','telusur','parameter'].forEach(t=>{
+      const n=el('tab-'+t);
+      if(n) n.classList.toggle('sembunyi',t!==b.dataset.tab);
+    });
+  });
+});
+
+pada('pilihRo','change',gambarTelusur);
+
+pada('tab-parameter','change',e=>{
+  const t=e.target;
+  if(t.id==='pNama'){KONFIG.satker.nama=t.value.trim()||'satuan kerja';gambarSemua();return;}
+  if(t.id==='pKode'){KONFIG.satker.kode=t.value.trim();gambarSemua();return;}
+  if(t.id==='pBulan'){HASIL=hitung(MENTAH.item,parseInt(t.value,10),KONFIG);gambarSemua();return;}
+  if(t.id==='pTanggal'){const d=new Date(t.value);if(!isNaN(d)){TANGGAL=d;gambarSemua();}return;}
+  if(t.dataset.jenis){
+    const v=Math.max(0,Math.min(100,parseFloat(t.value)||0))/100;
+    KONFIG[t.dataset.jenis][t.dataset.kel][parseInt(t.dataset.tw,10)]=v;
+    hitungUlang(); return;
+  }
+  if(t.dataset.peta==='ro'){
+    if(t.value==='Belum dipetakan') delete KONFIG.unit[t.dataset.kode];
+    else KONFIG.unit[t.dataset.kode]=t.value;
+    hitungUlang(); return;
+  }
+  if(t.dataset.peta==='akun'){
+    if(t.value==='Belum dipetakan') delete KONFIG.jenis[t.dataset.kode];
+    else KONFIG.jenis[t.dataset.kode]=t.value;
+    hitungUlang(); return;
+  }
+});
+
+/* ---- pemuatan dari data tertanam ---- */
+document.addEventListener('DOMContentLoaded',()=>{
+  const simpul=document.getElementById('dataTertanam');
+  if(!simpul) return;
+  try{
+    const d=JSON.parse(simpul.textContent);
+    MENTAH=d.mentah;
+    KONFIG=d.konfig;
+    TANGGAL=new Date(d.tanggal);
+    PAJANG=true;
+    HASIL=hitung(MENTAH.item,d.bulan,KONFIG);
+    const isi=el('isi'); if(isi) isi.classList.remove('sembunyi');
+    const cetak=el('tombolCetak'); if(cetak) cetak.classList.remove('sembunyi');
+    gambarSemua();
+  }catch(err){
+    document.body.insertAdjacentHTML('afterbegin',
+      '<div class="bungkus"><p class="galat">Data yang tertanam pada berkas ini tidak terbaca. Minta berkas terbaru kepada bendahara pengeluaran.</p></div>');
+  }
+});
+</script>
+
+
+<script id="dataTertanam" type="application/json">{"mentah":{"item":[{"kode":"000001","uraian":"CTK - Penggandaan Spanduk/ Backdrop, Pamflet, Brosur, dll","kodeKeg":"CD.4796","kegiatan":"Komunikasi, Edukasi, dan Standardisasi","kodeRo":"AEF.002","namaRo":"Sosialisasi Pengelolaan Piutang Negara","subKomponen":"Bimbingan Teknis/Sosialisasi/FGD di Bidang Piutang Negara","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":1980000,"blokir":0,"lalu":100000,"ini":0,"sd":100000},{"kode":"000002","uraian":"KDM - Snack Rapat Biasa (Kalimantan Timur)","kodeKeg":"CD.4796","kegiatan":"Komunikasi, Edukasi, dan Standardisasi","kodeRo":"AEF.002","namaRo":"Sosialisasi Pengelolaan Piutang Negara","subKomponen":"Bimbingan Teknis/Sosialisasi/FGD di Bidang Piutang Negara","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":802000,"blokir":0,"lalu":801500,"ini":0,"sd":801500},{"kode":"000003","uraian":"KDM - Makan Rapat Biasa (Kalimantan Timur)","kodeKeg":"CD.4796","kegiatan":"Komunikasi, Edukasi, dan Standardisasi","kodeRo":"AEF.002","namaRo":"Sosialisasi Pengelolaan Piutang Negara","subKomponen":"Bimbingan Teknis/Sosialisasi/FGD di Bidang Piutang Negara","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":1426000,"blokir":0,"lalu":1351000,"ini":0,"sd":1351000},{"kode":"000004","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4796","kegiatan":"Komunikasi, Edukasi, dan Standardisasi","kodeRo":"AEF.002","namaRo":"Sosialisasi Pengelolaan Piutang Negara","subKomponen":"Bimbingan Teknis/Sosialisasi/FGD di Bidang Piutang Negara","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":1464000,"blokir":0,"lalu":510000,"ini":0,"sd":510000},{"kode":"000010","uraian":"CTK - Seminar Kit","kodeKeg":"CD.4796","kegiatan":"Komunikasi, Edukasi, dan Standardisasi","kodeRo":"AEF.003","namaRo":"Sosialisasi/Edukasi di Bidang Lelang","subKomponen":"Bimbingan Teknis/Sosialisasi/FGD di Bidang Lelang","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":147000,"blokir":0,"lalu":32000,"ini":0,"sd":32000},{"kode":"000183","uraian":"KDM - Makan Rapat Biasa KALIMANTAN TIMUR","kodeKeg":"CD.4796","kegiatan":"Komunikasi, Edukasi, dan Standardisasi","kodeRo":"AEF.003","namaRo":"Sosialisasi/Edukasi di Bidang Lelang","subKomponen":"Bimbingan Teknis/Sosialisasi/FGD di Bidang Lelang","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":4486000,"blokir":0,"lalu":4486000,"ini":0,"sd":4486000},{"kode":"000184","uraian":"KDM - Snack Rapat Biasa KALIMANTAN TIMUR","kodeKeg":"CD.4796","kegiatan":"Komunikasi, Edukasi, dan Standardisasi","kodeRo":"AEF.003","namaRo":"Sosialisasi/Edukasi di Bidang Lelang","subKomponen":"Bimbingan Teknis/Sosialisasi/FGD di Bidang Lelang","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":2592000,"blokir":0,"lalu":2592000,"ini":0,"sd":2592000},{"kode":"000006","uraian":"KDM - Makan Rapat Biasa (Kalimantan Timur)","kodeKeg":"CD.4796","kegiatan":"Komunikasi, Edukasi, dan Standardisasi","kodeRo":"AEF.I01","namaRo":"Sosialisasi Pengelolaan Kekayaan Negara","subKomponen":"Bimbingan Teknis/Sosialisasi/FGD di Bidang Barang Milik Negara","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":4500000,"blokir":0,"lalu":4490000,"ini":0,"sd":4490000},{"kode":"000007","uraian":"KDM - Snack Rapat Biasa (Kalimantan Timur)","kodeKeg":"CD.4796","kegiatan":"Komunikasi, Edukasi, dan Standardisasi","kodeRo":"AEF.I01","namaRo":"Sosialisasi Pengelolaan Kekayaan Negara","subKomponen":"Bimbingan Teknis/Sosialisasi/FGD di Bidang Barang Milik Negara","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":2500000,"blokir":0,"lalu":2500000,"ini":0,"sd":2500000},{"kode":"000204","uraian":"CTK - Seminar Kit","kodeKeg":"CD.4796","kegiatan":"Komunikasi, Edukasi, dan Standardisasi","kodeRo":"AEF.I01","namaRo":"Sosialisasi Pengelolaan Kekayaan Negara","subKomponen":"Bimbingan Teknis/Sosialisasi/FGD di Bidang Barang Milik Negara","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":164000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000205","uraian":"Honorarium Narasumber (Pejabat Eselon III)","kodeKeg":"CD.4796","kegiatan":"Komunikasi, Edukasi, dan Standardisasi","kodeRo":"AEF.I01","namaRo":"Sosialisasi Pengelolaan Kekayaan Negara","subKomponen":"Bimbingan Teknis/Sosialisasi/FGD di Bidang Barang Milik Negara","kodeAkun":"522151","namaAkun":"Belanja Jasa Profesi","pagu":1200000,"blokir":0,"lalu":1200000,"ini":0,"sd":1200000},{"kode":"000187","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4796","kegiatan":"Komunikasi, Edukasi, dan Standardisasi","kodeRo":"AEF.I01","namaRo":"Sosialisasi Pengelolaan Kekayaan Negara","subKomponen":"Bimbingan Teknis/Sosialisasi/FGD di Bidang Barang Milik Negara","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":680000,"blokir":0,"lalu":170000,"ini":0,"sd":170000},{"kode":"000019","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"AAH.001","namaRo":"Keputusan Permohonan Pengelolaan Kekayaan Negara","subKomponen":"Penelitian Awal dan Pemberian Rekomendasi Lingkup KPKNL","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":9288000,"blokir":0,"lalu":1460000,"ini":0,"sd":1460000},{"kode":"000020","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon IV/Golongan III (KALIMANTAN TIMUR)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"AAH.001","namaRo":"Keputusan Permohonan Pengelolaan Kekayaan Negara","subKomponen":"Penelitian Awal dan Pemberian Rekomendasi Lingkup KPKNL","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":10800000,"blokir":0,"lalu":8370585,"ini":0,"sd":8370585},{"kode":"000021","uraian":"Satuan biaya transportasi darat dari Balikpapan ke luar Kota","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"AAH.001","namaRo":"Keputusan Permohonan Pengelolaan Kekayaan Negara","subKomponen":"Penelitian Awal dan Pemberian Rekomendasi Lingkup KPKNL","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":5770000,"blokir":0,"lalu":665000,"ini":0,"sd":665000},{"kode":"000022","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"AAH.001","namaRo":"Keputusan Permohonan Pengelolaan Kekayaan Negara","subKomponen":"Penelitian Awal dan Pemberian Rekomendasi Lingkup KPKNL","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":6562000,"blokir":0,"lalu":2906000,"ini":0,"sd":2906000},{"kode":"000185","uraian":"KDM - Snack Rapat Biasa (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"AAH.002","namaRo":"Keputusan Hasil Pengurusan/Pengelolaan Piutang Negara","subKomponen":"Pelaksanaan Pengurusan Piutang Negara","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":265000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000186","uraian":"KDM - Makan Rapat Biasa (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"AAH.002","namaRo":"Keputusan Hasil Pengurusan/Pengelolaan Piutang Negara","subKomponen":"Pelaksanaan Pengurusan Piutang Negara","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":477000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000015","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"AAH.002","namaRo":"Keputusan Hasil Pengurusan/Pengelolaan Piutang Negara","subKomponen":"Pelaksanaan Pengurusan Piutang Negara","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":11108000,"blokir":0,"lalu":5496000,"ini":0,"sd":5496000},{"kode":"000016","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon IV/Golongan III (KALIMANTAN TIMUR)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"AAH.002","namaRo":"Keputusan Hasil Pengurusan/Pengelolaan Piutang Negara","subKomponen":"Pelaksanaan Pengurusan Piutang Negara","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":9499000,"blokir":0,"lalu":6266000,"ini":0,"sd":6266000},{"kode":"000017","uraian":"Satuan biaya transportasi darat dari Balikpapan ke Luar Kota","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"AAH.002","namaRo":"Keputusan Hasil Pengurusan/Pengelolaan Piutang Negara","subKomponen":"Pelaksanaan Pengurusan Piutang Negara","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":6050000,"blokir":0,"lalu":1284190,"ini":0,"sd":1284190},{"kode":"000018","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"AAH.002","namaRo":"Keputusan Hasil Pengurusan/Pengelolaan Piutang Negara","subKomponen":"Pelaksanaan Pengurusan Piutang Negara","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":9036000,"blokir":0,"lalu":6840000,"ini":0,"sd":6840000},{"kode":"000033","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"ABA.002","namaRo":"Rekomendasi Hasil Kajian Portofolio Aset","subKomponen":"Implementasi Evaluasi Portofolio Aset","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":3096000,"blokir":0,"lalu":3096000,"ini":0,"sd":3096000},{"kode":"000034","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon IV/Golongan III (KALIMANTAN TIMUR)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"ABA.002","namaRo":"Rekomendasi Hasil Kajian Portofolio Aset","subKomponen":"Implementasi Evaluasi Portofolio Aset","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":3000000,"blokir":0,"lalu":3000000,"ini":0,"sd":3000000},{"kode":"000035","uraian":"Satuan Biaya Transportasi Darat Dari Balikpapan ke Luar Kota","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"ABA.002","namaRo":"Rekomendasi Hasil Kajian Portofolio Aset","subKomponen":"Implementasi Evaluasi Portofolio Aset","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":600000,"blokir":0,"lalu":236000,"ini":0,"sd":236000},{"kode":"000036","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"ABA.002","namaRo":"Rekomendasi Hasil Kajian Portofolio Aset","subKomponen":"Implementasi Evaluasi Portofolio Aset","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":816000,"blokir":0,"lalu":680000,"ini":0,"sd":680000},{"kode":"000026","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"ABA.003","namaRo":"Optimalisasi Pengelolaan Aset Negara","subKomponen":"Implementasi Evaluasi Portofolio Aset","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":2064000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000027","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon IV/Golongan III (KALIMANTAN TIMUR)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"ABA.003","namaRo":"Optimalisasi Pengelolaan Aset Negara","subKomponen":"Implementasi Evaluasi Portofolio Aset","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":1784000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000028","uraian":"Satuan Biaya Transportasi Darat Dari Balikpapan ke Luar Kota","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"ABA.003","namaRo":"Optimalisasi Pengelolaan Aset Negara","subKomponen":"Implementasi Evaluasi Portofolio Aset","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":400000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000029","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"ABA.003","namaRo":"Optimalisasi Pengelolaan Aset Negara","subKomponen":"Implementasi Evaluasi Portofolio Aset","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":3264000,"blokir":0,"lalu":816000,"ini":0,"sd":816000},{"kode":"000045","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.001","namaRo":"Risalah Lelang","subKomponen":"Identifikasi dan Verifikasi atas Permohonan Lelang","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":1464000,"blokir":0,"lalu":1360000,"ini":0,"sd":1360000},{"kode":"000046","uraian":"CTK - Penjilidan Risalah Lelang","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.001","namaRo":"Risalah Lelang","subKomponen":"Pelaksanaan Lelang dan Pembuatan Risalah","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":2476000,"blokir":0,"lalu":2105000,"ini":0,"sd":2105000},{"kode":"000047","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.001","namaRo":"Risalah Lelang","subKomponen":"Pelaksanaan Lelang dan Pembuatan Risalah","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":8331000,"blokir":0,"lalu":6450000,"ini":0,"sd":6450000},{"kode":"000048","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon IV/Golongan III (KALIMANTAN TIMUR)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.001","namaRo":"Risalah Lelang","subKomponen":"Pelaksanaan Lelang dan Pembuatan Risalah","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":8654000,"blokir":0,"lalu":7694000,"ini":0,"sd":7694000},{"kode":"000049","uraian":"Satuan biaya transportasi darat dari Balikpapan ke Luar Kota","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.001","namaRo":"Risalah Lelang","subKomponen":"Pelaksanaan Lelang dan Pembuatan Risalah","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":4844000,"blokir":0,"lalu":2865900,"ini":0,"sd":2865900},{"kode":"000050","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.001","namaRo":"Risalah Lelang","subKomponen":"Pelaksanaan Lelang dan Pembuatan Risalah","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":8783000,"blokir":0,"lalu":5814000,"ini":0,"sd":5814000},{"kode":"000037","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.002","namaRo":"Laporan Penilaian","subKomponen":"Survey Lapangan dan Penilaian","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":15480000,"blokir":0,"lalu":12656000,"ini":0,"sd":12656000},{"kode":"000038","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon IV/Golongan III (KALIMANTAN TIMUR)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.002","namaRo":"Laporan Penilaian","subKomponen":"Survey Lapangan dan Penilaian","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":22620000,"blokir":0,"lalu":18426985,"ini":0,"sd":18426985},{"kode":"000039","uraian":"Satuan biaya transportasi darat dari Balikpapan ke luar Kota","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.002","namaRo":"Laporan Penilaian","subKomponen":"Survey Lapangan dan Penilaian","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":8627000,"blokir":0,"lalu":1781970,"ini":0,"sd":1781970},{"kode":"000040","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.002","namaRo":"Laporan Penilaian","subKomponen":"Survey Lapangan dan Penilaian","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":9792000,"blokir":0,"lalu":5848000,"ini":0,"sd":5848000},{"kode":"000041","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.002","namaRo":"Laporan Penilaian","subKomponen":"Kegiatan Pendukung Analisis Terpisah di Bidang Penilaian","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":2064000,"blokir":0,"lalu":1032000,"ini":0,"sd":1032000},{"kode":"000042","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.002","namaRo":"Laporan Penilaian","subKomponen":"Kegiatan Pendukung Analisis Terpisah di Bidang Penilaian","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":1200000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000043","uraian":"Satuan biaya transportasi darat dari Balikpapan ke luar Kota","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"BAH.002","namaRo":"Laporan Penilaian","subKomponen":"Kegiatan Pendukung Analisis Terpisah di Bidang Penilaian","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":406000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000051","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.004","namaRo":"Rekomendasi di Bidang Kekayaan Negara","subKomponen":"Pengawasan dan Pengendalian Pengelolaan BMN Kewenangan KPKNL","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":4644000,"blokir":0,"lalu":4644000,"ini":0,"sd":4644000},{"kode":"000052","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon IV/Golongan III (KALIMANTAN TIMUR)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.004","namaRo":"Rekomendasi di Bidang Kekayaan Negara","subKomponen":"Pengawasan dan Pengendalian Pengelolaan BMN Kewenangan KPKNL","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":7236000,"blokir":0,"lalu":7171140,"ini":0,"sd":7171140},{"kode":"000053","uraian":"Satuan biaya transportasi darat dari Balikpapan ke luar Kota","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.004","namaRo":"Rekomendasi di Bidang Kekayaan Negara","subKomponen":"Pengawasan dan Pengendalian Pengelolaan BMN Kewenangan KPKNL","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":2700000,"blokir":0,"lalu":2351970,"ini":0,"sd":2351970},{"kode":"000054","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.004","namaRo":"Rekomendasi di Bidang Kekayaan Negara","subKomponen":"Pengawasan dan Pengendalian Pengelolaan BMN Kewenangan KPKNL","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":1632000,"blokir":0,"lalu":816000,"ini":0,"sd":816000},{"kode":"000069","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.005","namaRo":"Rekomendasi Hasil Penilaian","subKomponen":"Penyusunan Basis Data dan Informasi Penilaian","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":3096000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000070","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon IV/Golongan III (KALIMANTAN TIMUR)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.005","namaRo":"Rekomendasi Hasil Penilaian","subKomponen":"Penyusunan Basis Data dan Informasi Penilaian","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":3000000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000071","uraian":"Satuan biaya transportasi darat dari Balikpapan ke luar Kota","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.005","namaRo":"Rekomendasi Hasil Penilaian","subKomponen":"Penyusunan Basis Data dan Informasi Penilaian","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":600000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000073","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.005","namaRo":"Rekomendasi Hasil Penilaian","subKomponen":"Penyusunan Basis Data dan Informasi Penilaian","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":816000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000075","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.005","namaRo":"Rekomendasi Hasil Penilaian","subKomponen":"Penyusunan DKPB","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":1632000,"blokir":0,"lalu":1188000,"ini":0,"sd":1188000},{"kode":"000062","uraian":"CTK - Spanduk, Banner, dan Brosur","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.007","namaRo":"Penggalian Potensi Lelang","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":984000,"blokir":0,"lalu":984000,"ini":0,"sd":984000},{"kode":"000192","uraian":"KDM - Snack Rapat Biasa (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.007","namaRo":"Penggalian Potensi Lelang","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":267000,"blokir":0,"lalu":181301,"ini":0,"sd":181301},{"kode":"000193","uraian":"KDM - Makan Rapat Biasa (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.007","namaRo":"Penggalian Potensi Lelang","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":475000,"blokir":0,"lalu":475000,"ini":0,"sd":475000},{"kode":"000065","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.007","namaRo":"Penggalian Potensi Lelang","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":4522000,"blokir":0,"lalu":4522000,"ini":0,"sd":4522000},{"kode":"000066","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon IV/Golongan III (KALIMANTAN TIMUR)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.007","namaRo":"Penggalian Potensi Lelang","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":4046000,"blokir":0,"lalu":4046000,"ini":0,"sd":4046000},{"kode":"000067","uraian":"Satuan biaya transportasi darat dari Balikpapan ke luar Kota","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.007","namaRo":"Penggalian Potensi Lelang","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":2029000,"blokir":0,"lalu":1745000,"ini":0,"sd":1745000},{"kode":"000206","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.007","namaRo":"Penggalian Potensi Lelang","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":6120000,"blokir":0,"lalu":5542000,"ini":0,"sd":5542000},{"kode":"000058","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.301","namaRo":"Rekomendasi BMN Berupa Tanah yang Disertipikatkan (PU)","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":6192000,"blokir":0,"lalu":6020000,"ini":0,"sd":6020000},{"kode":"000059","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon IV/Golongan III (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.301","namaRo":"Rekomendasi BMN Berupa Tanah yang Disertipikatkan (PU)","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":6000000,"blokir":0,"lalu":4152601,"ini":0,"sd":4152601},{"kode":"000060","uraian":"Satuan biaya transportasi darat dari Balikpapan ke luar Kota","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.301","namaRo":"Rekomendasi BMN Berupa Tanah yang Disertipikatkan (PU)","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":1200000,"blokir":0,"lalu":241000,"ini":0,"sd":241000},{"kode":"000061","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAE.301","namaRo":"Rekomendasi BMN Berupa Tanah yang Disertipikatkan (PU)","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":1632000,"blokir":0,"lalu":1020000,"ini":0,"sd":1020000},{"kode":"000079","uraian":"Uang Balas Jasa Wakil Kerja","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAK.001","namaRo":"Aset BUN yang Dikelola","subKomponen":"Pengelolaan Kekayaan Negara Lain-Lain","kodeAkun":"521219","namaAkun":"Belanja Barang Non Operasional Lainnya","pagu":14400000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000087","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"CD.4798","kegiatan":"Pengelolaan Aset","kodeRo":"FAK.001","namaRo":"Aset BUN yang Dikelola","subKomponen":"Pengelolaan Kekayaan Negara Lain-Lain","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":2448000,"blokir":0,"lalu":1632000,"ini":0,"sd":1632000},{"kode":"000088","uraian":"Biaya Beracara di Pengadilan","kodeKeg":"WA.4700","kegiatan":"Legislasi dan Litigasi","kodeRo":"EBA.969","namaRo":"Layanan Bantuan Hukum","subKomponen":"Pelaksanaan Advokasi Hukum","kodeAkun":"521219","namaAkun":"Belanja Barang Non Operasional Lainnya","pagu":2010000,"blokir":0,"lalu":726412,"ini":0,"sd":726412},{"kode":"000089","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"WA.4700","kegiatan":"Legislasi dan Litigasi","kodeRo":"EBA.969","namaRo":"Layanan Bantuan Hukum","subKomponen":"Pelaksanaan Advokasi Hukum","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":7406000,"blokir":0,"lalu":2850000,"ini":0,"sd":2850000},{"kode":"000090","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon IV/Golongan III (KALIMANTAN TIMUR)","kodeKeg":"WA.4700","kegiatan":"Legislasi dan Litigasi","kodeRo":"EBA.969","namaRo":"Layanan Bantuan Hukum","subKomponen":"Pelaksanaan Advokasi Hukum","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":7075000,"blokir":0,"lalu":350000,"ini":0,"sd":350000},{"kode":"000091","uraian":"Satuan biaya transportasi darat dari Balikpapan ke Luar Kota","kodeKeg":"WA.4700","kegiatan":"Legislasi dan Litigasi","kodeRo":"EBA.969","namaRo":"Layanan Bantuan Hukum","subKomponen":"Pelaksanaan Advokasi Hukum","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":4264000,"blokir":0,"lalu":640985,"ini":0,"sd":640985},{"kode":"000092","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"WA.4700","kegiatan":"Legislasi dan Litigasi","kodeRo":"EBA.969","namaRo":"Layanan Bantuan Hukum","subKomponen":"Pelaksanaan Advokasi Hukum","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":20831000,"blokir":0,"lalu":16336000,"ini":0,"sd":16336000},{"kode":"000194","uraian":"KDM - Makan Rapat Biasa (Kalimantan Timur)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.002","namaRo":"Kerumahtanggaan","subKomponen":"Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":6750000,"blokir":0,"lalu":6664000,"ini":0,"sd":6664000},{"kode":"000195","uraian":"KDM - Snack Rapat Biasa (Kalimantan Timur)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.002","namaRo":"Kerumahtanggaan","subKomponen":"Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":3750000,"blokir":0,"lalu":3066500,"ini":0,"sd":3066500},{"kode":"000144","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.002","namaRo":"Kerumahtanggaan","subKomponen":"Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":6192000,"blokir":0,"lalu":4528000,"ini":0,"sd":4528000},{"kode":"000145","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon III/Golongan IV (KALIMANTAN TIMUR)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.002","namaRo":"Kerumahtanggaan","subKomponen":"Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":6000000,"blokir":0,"lalu":3368664,"ini":0,"sd":3368664},{"kode":"000146","uraian":"Satuan biaya transportasi darat dari Balikpapan ke Luar Kota","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.002","namaRo":"Kerumahtanggaan","subKomponen":"Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":1200000,"blokir":0,"lalu":32500,"ini":0,"sd":32500},{"kode":"000148","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.002","namaRo":"Kerumahtanggaan","subKomponen":"Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":6192000,"blokir":0,"lalu":4740000,"ini":0,"sd":4740000},{"kode":"000149","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon III/Golongan IV (KALIMANTAN TIMUR)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.002","namaRo":"Kerumahtanggaan","subKomponen":"Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":6000000,"blokir":0,"lalu":3250433,"ini":0,"sd":3250433},{"kode":"000150","uraian":"Satuan biaya transportasi darat dari Balikpapan ke Luar Kota","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.002","namaRo":"Kerumahtanggaan","subKomponen":"Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":1200000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000152","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.002","namaRo":"Kerumahtanggaan","subKomponen":"Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":3264000,"blokir":0,"lalu":3020000,"ini":0,"sd":3020000},{"kode":"000203","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.002","namaRo":"Kerumahtanggaan","subKomponen":"Pelayanan Umum, Pelayanan Rumah Tangga dan Perlengkapan","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":3264000,"blokir":0,"lalu":2448000,"ini":0,"sd":2448000},{"kode":"000093","uraian":"keperluan Sehari-hari Perkantoran kurang 40 Pegawai (Kalimantan Timur)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521111","namaAkun":"Belanja Keperluan Perkantoran","pagu":60440000,"blokir":0,"lalu":38896740,"ini":903800,"sd":39800540},{"kode":"000094","uraian":"Honorarium Petugas Kebersihan dan Pramubakti Kalimantan Timur","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521111","namaAkun":"Belanja Keperluan Perkantoran","pagu":246805000,"blokir":0,"lalu":173551230,"ini":0,"sd":173551230},{"kode":"000095","uraian":"Honorarium Satpam dan Pengemudi Kalimantan Timur","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521111","namaAkun":"Belanja Keperluan Perkantoran","pagu":108602000,"blokir":0,"lalu":75186000,"ini":0,"sd":75186000},{"kode":"000096","uraian":"Uang Lembur Satpam, Pengemudi, Petugas Kebersihan, dan Pramubakti","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521111","namaAkun":"Belanja Keperluan Perkantoran","pagu":17472000,"blokir":0,"lalu":11648000,"ini":0,"sd":11648000},{"kode":"000097","uraian":"Uang Makan Lembur Satpam, Pengemudi, Petugas Kebersihan, dan Pramubakti","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521111","namaAkun":"Belanja Keperluan Perkantoran","pagu":5040000,"blokir":0,"lalu":1680000,"ini":0,"sd":1680000},{"kode":"000098","uraian":"Pakaian Dinas Pegawai/Perawat (Kalimantan Timur)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521111","namaAkun":"Belanja Keperluan Perkantoran","pagu":62592000,"blokir":0,"lalu":61709750,"ini":0,"sd":61709750},{"kode":"000099","uraian":"Pakaian Kerja Pengemudi/Petugas Kebersihan/Pramubakti/Pesuruh (Kalimantan Timur)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521111","namaAkun":"Belanja Keperluan Perkantoran","pagu":9982000,"blokir":0,"lalu":9805000,"ini":0,"sd":9805000},{"kode":"000100","uraian":"Top Up Kartu Pembayaran Elektronik untuk Keperluan Kedinasan dan Tamu","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521111","namaAkun":"Belanja Keperluan Perkantoran","pagu":3500000,"blokir":0,"lalu":1553700,"ini":0,"sd":1553700},{"kode":"000101","uraian":"Penambah Daya Tahan Tubuh (Kalimantan Timur)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521113","namaAkun":"Belanja Penambah Daya Tahan Tubuh","pagu":14592000,"blokir":0,"lalu":9471500,"ini":0,"sd":9471500},{"kode":"000102","uraian":"Biaya pengiriman surat","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521114","namaAkun":"Belanja Pengiriman Surat Dinas Pos Pusat","pagu":15300000,"blokir":0,"lalu":5497500,"ini":619500,"sd":6117000},{"kode":"000103","uraian":"Honorarium Pejabat Kuasa Pengguna Anggaran (pagu dana di atas Rp1 miliar s.d. Rp10 miliar)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":14160000,"blokir":0,"lalu":8260000,"ini":1180000,"sd":9440000},{"kode":"000104","uraian":"Honorarium Koordinator (UAKPA/Barang)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":2400000,"blokir":0,"lalu":1400000,"ini":200000,"sd":1600000},{"kode":"000105","uraian":"Honorarium Ketua/Wakil Ketua (UAKPA/Barang)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":1800000,"blokir":0,"lalu":1050000,"ini":150000,"sd":1200000},{"kode":"000106","uraian":"Honorarium Anggota/Petugas (UAKPA/Barang)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":5400000,"blokir":0,"lalu":3150000,"ini":450000,"sd":3600000},{"kode":"000107","uraian":"Honorarium Pengurus/Penyimpan Bmn Tingkat Kuasa Pengguna Barang","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":4320000,"blokir":0,"lalu":2520000,"ini":360000,"sd":2880000},{"kode":"000108","uraian":"Honorarium Pejabat Pengadaan Barang/Jasa","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":8160000,"blokir":0,"lalu":4760000,"ini":680000,"sd":5440000},{"kode":"000109","uraian":"Honorarium Pejabat Pembuat Komitmen (pagu dana di atas Rp1 miliar s.d. Rp10 miliar)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":13800000,"blokir":0,"lalu":8050000,"ini":1150000,"sd":9200000},{"kode":"000110","uraian":"Honorarium Pejabat Penguji Tagihan Penandatangan Spm (pagu dana di atas Rp1 miliar s.d. Rp2,5 miliar)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":5640000,"blokir":0,"lalu":3290000,"ini":470000,"sd":3760000},{"kode":"000111","uraian":"Honorarium Bendahara Pengeluaran (pagu dana di atas Rp1 miliar s.d. Rp2,5 miliar)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":4920000,"blokir":0,"lalu":2870000,"ini":410000,"sd":3280000},{"kode":"000112","uraian":"Honorarium Staf Pengelola (pagu dana di atas Rp1 miliar s.d. Rp2,5 miliar)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":10800000,"blokir":0,"lalu":4200000,"ini":600000,"sd":4800000},{"kode":"000113","uraian":"Honorarium Atasan Langsung Bendahara Pengelola Pnbp (pagu dana di atas Rp1 miliar s.d. Rp2,5 miliar)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":6480000,"blokir":0,"lalu":3780000,"ini":540000,"sd":4320000},{"kode":"000114","uraian":"Honorarium Bendahara Pengelola Pnbp (pagu dana di atas Rp1 miliar s.d. Rp2,5 miliar)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":5280000,"blokir":0,"lalu":3080000,"ini":440000,"sd":3520000},{"kode":"000115","uraian":"Honorarium Anggota Pengelola Pnbp (pagu dana di atas Rp1 miliar s.d. Rp2,5 miliar)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":11880000,"blokir":0,"lalu":6930000,"ini":990000,"sd":7920000},{"kode":"000116","uraian":"Honorarium Penanggung Jawab (UAKPA/Barang)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521115","namaAkun":"Belanja Honor Operasional Satuan Kerja","pagu":2400000,"blokir":0,"lalu":1400000,"ini":200000,"sd":1600000},{"kode":"000117","uraian":"Paket Medical Check Up Pegawai","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521119","namaAkun":"Belanja Barang Operasional Lainnya","pagu":53303000,"blokir":0,"lalu":52000000,"ini":0,"sd":52000000},{"kode":"000118","uraian":"ATK - Alat Tulis Kantor","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521811","namaAkun":"Belanja Barang Persediaan Barang Konsumsi","pagu":88685000,"blokir":0,"lalu":73090224,"ini":0,"sd":73090224},{"kode":"000119","uraian":"ATK - Toner dan Tinta Printer","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pembayaran Biaya Operasional Kantor","kodeAkun":"521811","namaAkun":"Belanja Barang Persediaan Barang Konsumsi","pagu":40000000,"blokir":0,"lalu":18500000,"ini":0,"sd":18500000},{"kode":"000120","uraian":"Pemeliharaan Inventaris Kantor","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":2560000,"blokir":0,"lalu":2470600,"ini":0,"sd":2470600},{"kode":"000121","uraian":"Pemeliharaan Mesin Fotocopy Electronic","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":4295000,"blokir":0,"lalu":1650000,"ini":0,"sd":1650000},{"kode":"000122","uraian":"Pemeliharaan Mesin Fotocopy Double Folio","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":4295000,"blokir":0,"lalu":850000,"ini":0,"sd":850000},{"kode":"000123","uraian":"Pemeliharaan Facsimile","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":100000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000124","uraian":"Pemeliharaan AC Split","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":26082000,"blokir":0,"lalu":10155400,"ini":0,"sd":10155400},{"kode":"000125","uraian":"Pemeliharaan Tabung Pemadam Api","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":4000000,"blokir":0,"lalu":1900000,"ini":0,"sd":1900000},{"kode":"000126","uraian":"Biaya Pemeliharaan dan Operasional Kendaraan Roda 4 (Kalimantan Timur)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":186800000,"blokir":0,"lalu":158990055,"ini":110810,"sd":159100865},{"kode":"000127","uraian":"Pemeliharaan Kendaraan Dinas Operasional Roda 2 (Kalimantan Timur)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":20080000,"blokir":0,"lalu":8032020,"ini":0,"sd":8032020},{"kode":"000128","uraian":"Pemeliharaan Alat Penghancur Kertas","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":1500000,"blokir":0,"lalu":1459000,"ini":0,"sd":1459000},{"kode":"000129","uraian":"Pemeliharaan Camera Digital","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":9400000,"blokir":0,"lalu":9144100,"ini":0,"sd":9144100},{"kode":"000130","uraian":"Pemeliharaan Telephone (PABX)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":100000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000131","uraian":"Pemeliharaan LCD Projector/Infocus","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":150000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000132","uraian":"Pemeliharaan Sound System","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":8577000,"blokir":0,"lalu":7652049,"ini":810000,"sd":8462049},{"kode":"000133","uraian":"Pemeliharaan CCTV - Camera Control Television System","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":4765000,"blokir":0,"lalu":3808116,"ini":0,"sd":3808116},{"kode":"000134","uraian":"Pemeliharaan Scanner (Peralatan Personal Komputer)","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":2500000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000135","uraian":"Pemeliharaan Printer","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":19320000,"blokir":0,"lalu":1750000,"ini":0,"sd":1750000},{"kode":"000136","uraian":"Pemeliharaan Server","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":4000000,"blokir":0,"lalu":299036,"ini":0,"sd":299036},{"kode":"000137","uraian":"Pemeliharaan Note Book","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":730000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000138","uraian":"Pemeliharaan Lap Top","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":21900000,"blokir":0,"lalu":15841414,"ini":0,"sd":15841414},{"kode":"000139","uraian":"Pemeliharaan P.C Unit","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBA.994","namaRo":"Layanan Perkantoran","subKomponen":"Pemeliharaan Peralatan dan Mesin","kodeAkun":"523121","namaAkun":"Belanja Pemeliharaan Peralatan dan Mesin","pagu":16060000,"blokir":0,"lalu":5547685,"ini":0,"sd":5547685},{"kode":"000160","uraian":"Kursi Besi/Metal Auction Room","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBB.001","namaRo":"Peralatan Fasilitas Perkantoran","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"532111","namaAkun":"Belanja Modal Peralatan dan Mesin","pagu":31800000,"blokir":0,"lalu":31800000,"ini":0,"sd":31800000},{"kode":"000161","uraian":"Meja Rapat Auction","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBB.001","namaRo":"Peralatan Fasilitas Perkantoran","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"532111","namaAkun":"Belanja Modal Peralatan dan Mesin","pagu":18200000,"blokir":0,"lalu":18200000,"ini":0,"sd":18200000},{"kode":"000162","uraian":"AC Split 1 PK Auction Room","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBB.001","namaRo":"Peralatan Fasilitas Perkantoran","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"532111","namaAkun":"Belanja Modal Peralatan dan Mesin","pagu":11000000,"blokir":0,"lalu":10559208,"ini":0,"sd":10559208},{"kode":"000163","uraian":"CCTV","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBB.001","namaRo":"Peralatan Fasilitas Perkantoran","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"532111","namaAkun":"Belanja Modal Peralatan dan Mesin","pagu":2200000,"blokir":0,"lalu":2200000,"ini":0,"sd":2200000},{"kode":"000156","uraian":"Pekerjaan Konstruksi","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBB.004","namaRo":"Gedung/Bangunan","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"536121","namaAkun":"Belanja Penambahan Nilai Aset Tetap Lainnya dan/atau Aset Lainnya","pagu":139791000,"blokir":0,"lalu":139342788,"ini":0,"sd":139342788},{"kode":"000157","uraian":"Konsultan Perencana","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBB.004","namaRo":"Gedung/Bangunan","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"536121","namaAkun":"Belanja Penambahan Nilai Aset Tetap Lainnya dan/atau Aset Lainnya","pagu":15884000,"blokir":0,"lalu":15800000,"ini":0,"sd":15800000},{"kode":"000158","uraian":"Konsultan Pengawas","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBB.004","namaRo":"Gedung/Bangunan","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"536121","namaAkun":"Belanja Penambahan Nilai Aset Tetap Lainnya dan/atau Aset Lainnya","pagu":10325000,"blokir":0,"lalu":10300000,"ini":0,"sd":10300000},{"kode":"000159","uraian":"Biaya Pengelolaan Konstruksi","kodeKeg":"WA.4701","kegiatan":"Pengelolaan Keuangan, BMN, dan Umum","kodeRo":"EBB.004","namaRo":"Gedung/Bangunan","subKomponen":"TANPA SUB KOMPONEN","kodeAkun":"536121","namaAkun":"Belanja Penambahan Nilai Aset Tetap Lainnya dan/atau Aset Lainnya","pagu":27000000,"blokir":0,"lalu":26914920,"ini":0,"sd":26914920},{"kode":"000170","uraian":"CTK - Biaya Cetak Pamflet, Brosur, Sertifikat, dll","kodeKeg":"WA.4702","kegiatan":"Pengelolaan komunikasi dan informasi publik","kodeRo":"BMB.001","namaRo":"Pembinaan/Edukasi Publik","subKomponen":"Pelaksanaan Publikasi","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":2120000,"blokir":0,"lalu":1950000,"ini":0,"sd":1950000},{"kode":"000177","uraian":"Pakaian Dinas Pegawai/Perawat (Kalimantan Timur)","kodeKeg":"WA.4702","kegiatan":"Pengelolaan komunikasi dan informasi publik","kodeRo":"BMB.001","namaRo":"Pembinaan/Edukasi Publik","subKomponen":"Pelaksanaan Publikasi","kodeAkun":"521219","namaAkun":"Belanja Barang Non Operasional Lainnya","pagu":16000000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000164","uraian":"CTK - Biaya Publikasi Berita Kehumasan","kodeKeg":"WA.4702","kegiatan":"Pengelolaan komunikasi dan informasi publik","kodeRo":"BMB.002","namaRo":"Kehumasan","subKomponen":"Pelaksanaan Publikasi","kodeAkun":"521211","namaAkun":"Belanja Bahan","pagu":950000,"blokir":0,"lalu":275000,"ini":0,"sd":275000},{"kode":"000168","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"WA.4702","kegiatan":"Pengelolaan komunikasi dan informasi publik","kodeRo":"BMB.002","namaRo":"Kehumasan","subKomponen":"Pelaksanaan Publikasi","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":544000,"blokir":0,"lalu":544000,"ini":0,"sd":544000},{"kode":"000179","uraian":"Uang Harian Perjalanan Dinas Luar Kota (Kalimantan Timur)","kodeKeg":"WA.4704","kegiatan":"Pengelolaan Risiko, Pengendalian, dan Pengawasan Internal","kodeRo":"EBD.001","namaRo":"Rekomendasi Kepatuhan Internal","subKomponen":"Implementasi Pengendalian dan Kepatuhan Internal","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":1376000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000180","uraian":"Biaya Penginapan Perjalanan Dinas Pejabat Eselon IV/Golongan III (KALIMANTAN TIMUR)","kodeKeg":"WA.4704","kegiatan":"Pengelolaan Risiko, Pengendalian, dan Pengawasan Internal","kodeRo":"EBD.001","namaRo":"Rekomendasi Kepatuhan Internal","subKomponen":"Implementasi Pengendalian dan Kepatuhan Internal","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":1000000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000181","uraian":"Satuan biaya transportasi darat dari Balikpapan ke Luar Kota","kodeKeg":"WA.4704","kegiatan":"Pengelolaan Risiko, Pengendalian, dan Pengawasan Internal","kodeRo":"EBD.001","namaRo":"Rekomendasi Kepatuhan Internal","subKomponen":"Implementasi Pengendalian dan Kepatuhan Internal","kodeAkun":"524111","namaAkun":"Belanja Perjalanan Dinas Biasa","pagu":400000,"blokir":0,"lalu":0,"ini":0,"sd":0},{"kode":"000182","uraian":"Uang Harian Perjalanan Dinas Dalam Kota Lebih dari 8 Jam (Kalimantan Timur)","kodeKeg":"WA.4704","kegiatan":"Pengelolaan Risiko, Pengendalian, dan Pengawasan Internal","kodeRo":"EBD.001","namaRo":"Rekomendasi Kepatuhan Internal","subKomponen":"Implementasi Pengendalian dan Kepatuhan Internal","kodeAkun":"524113","namaAkun":"Belanja Perjalanan Dinas Dalam Kota","pagu":816000,"blokir":0,"lalu":0,"ini":0,"sd":0}],"total":{"pagu":1802003000,"blokir":0,"lalu":1298900671,"ini":10264110,"sd":1309164781},"kontrol":{"pagu":1802003000,"blokir":0,"lalu":1298900671,"ini":10264110,"sd":1309164781},"cocok":true,"selisih":{"pagu":0,"sd":0},"bulan":9,"tahun":2026,"catatan":[]},"konfig":{"satker":{"nama":"KPKNL Balikpapan","kode":"537962"},"target":{"51":[0.2,0.5,0.75,0.95],"52":[0.15,0.5,0.7,0.9],"53":[0.1,0.4,0.7,0.9]},"ambang":{"51":[0.1,0.1,0.1,0],"52":[0,0,0,0],"53":[0,0,0,0]},"namaKelompok":{"51":"Belanja Pegawai (51)","52":"Belanja Barang (52)","53":"Belanja Modal (53)"},"unit":{"EBA.002":"Subbagian Umum","EBA.994":"Subbagian Umum","EBB.001":"Subbagian Umum","EBB.004":"Subbagian Umum","AAH.001":"Seksi Pengelolaan Kekayaan Negara","ABA.002":"Seksi Pengelolaan Kekayaan Negara","ABA.003":"Seksi Pengelolaan Kekayaan Negara","AEF.I01":"Seksi Pengelolaan Kekayaan Negara","FAE.004":"Seksi Pengelolaan Kekayaan Negara","FAE.301":"Seksi Pengelolaan Kekayaan Negara","FAK.001":"Seksi Pengelolaan Kekayaan Negara","AAH.002":"Seksi Piutang Negara","AEF.002":"Seksi Piutang Negara","BMB.001":"Seksi Hukum dan Informasi","BMB.002":"Seksi Hukum dan Informasi","EBA.969":"Seksi Hukum dan Informasi","EBD.001":"Seksi Kepatuhan Internal","AEF.003":"Kelompok Jafung Pelelang","BAH.001":"Kelompok Jafung Pelelang","FAE.007":"Kelompok Jafung Pelelang","BAH.002":"Kelompok Jafung Penilai","FAE.005":"Kelompok Jafung Penilai"},"urutanUnit":["Subbagian Umum","Seksi Pengelolaan Kekayaan Negara","Seksi Piutang Negara","Seksi Hukum dan Informasi","Seksi Kepatuhan Internal","Kelompok Jafung Pelelang","Kelompok Jafung Penilai"],"jenis":{"521111":"Belanja Operasional Kantor","521113":"Belanja Operasional Kantor","521114":"Belanja Operasional Kantor","521115":"Honorarium","521119":"Belanja Operasional Kantor","521211":"Bahan dan Konsumsi Rapat","521219":"Belanja Non Operasional Lainnya","521811":"Persediaan (ATK)","522151":"Honorarium","523121":"Pemeliharaan","524111":"Perjalanan Dinas","524113":"Perjalanan Dinas","532111":"Belanja Modal","536121":"Belanja Modal"},"urutanJenis":["Belanja Operasional Kantor","Honorarium","Bahan dan Konsumsi Rapat","Belanja Non Operasional Lainnya","Persediaan (ATK)","Pemeliharaan","Perjalanan Dinas","Belanja Modal"]},"bulan":9,"tanggal":"2026-09-13T11:05:17.962Z"}</script></body></html>
