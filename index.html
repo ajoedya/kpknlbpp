@@ -10,15 +10,16 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23bcd6ff%22/%3E%3Crect x=%2221%22 y=%2244%22 width=%225%22 height=%2211%22 rx=%222.5%22 fill=%22%2355637d%22/%3E%3Crect x=%2233%22 y=%2244%22 width=%225%22 height=%2211%22 rx=%222.5%22 fill=%22%2355637d%22/%3E%3Cg fill=%22%23ffffff%22%3E%3Ccircle cx=%2222%22 cy=%2231%22 r=%2211%22/%3E%3Ccircle cx=%2232%22 cy=%2226%22 r=%2210%22/%3E%3Ccircle cx=%2234%22 cy=%2238%22 r=%2210%22/%3E%3Ccircle cx=%2221%22 cy=%2241%22 r=%229%22/%3E%3Ccircle cx=%2242%22 cy=%2231%22 r=%228%22/%3E%3C/g%3E%3Cellipse cx=%2245%22 cy=%2236%22 rx=%229.5%22 ry=%228.5%22 fill=%22%233d4b63%22/%3E%3Cellipse cx=%2237%22 cy=%2231%22 rx=%224.6%22 ry=%223%22 fill=%22%2333405a%22 transform=%22rotate(-28 37 31)%22/%3E%3Cellipse cx=%2253%22 cy=%2231%22 rx=%224.6%22 ry=%223%22 fill=%22%2333405a%22 transform=%22rotate(28 53 31)%22/%3E%3Ccircle cx=%2245%22 cy=%2228%22 r=%226%22 fill=%22%23ffffff%22/%3E%3Ccircle cx=%2241.5%22 cy=%2235%22 r=%222.1%22 fill=%22%23ffffff%22/%3E%3Ccircle cx=%2249.5%22 cy=%2235%22 r=%222.1%22 fill=%22%23ffffff%22/%3E%3Ccircle cx=%2242.1%22 cy=%2235.5%22 r=%221.05%22 fill=%22%231b2333%22/%3E%3Ccircle cx=%2250.1%22 cy=%2235.5%22 r=%221.05%22 fill=%22%231b2333%22/%3E%3Cpath d=%22M43.2 40.4 q2.3 2.1 4.6 0%22 stroke=%22%23ffffff%22 stroke-width=%221.7%22 fill=%22none%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
 <style>
 /* ============================================================
-   Bahasa desain mengikuti situs perkakas PDF (gaya.css):
-   biru tua dan emas identitas Kementerian Keuangan, huruf
-   Public Sans, bilah menu emas, kop biru tua berornamen sulur,
-   kartu putih bergaris atas, dan pita motif belah ketupat.
+   Bahasa desain mengikuti situs perkakas PDF (gaya.css) versi
+   lapisan kaca: biru tua dan emas identitas Kementerian Keuangan,
+   huruf Public Sans, bilah menu emas tembus pandang, kop biru tua
+   dengan sulur di sudut, pita belah ketupat di dasar kop dan di
+   atas kaki halaman, serta kartu kaca bertepi tipis.
    ============================================================ */
 :root{
   color-scheme:light;
   --biru-tua:#002F5F; --biru:#14539A; --biru-muda:#EBF3FC;
-  --emas:#F5B301; --emas-muda:#FFF8E6; --emas-tua:#C48A00;
+  --emas:#F5B301; --emas-muda:#FFF8E6; --emas-tua:#C48A00; --emas-teks:#7A5600;
   --putih:#FFFFFF; --latar:#F8FAFC;
   --tinta:#0F172A; --tinta-lembut:#475569;
   --garis:#E2E8F0; --garis-fokus:#CBD5E1;
@@ -26,121 +27,127 @@
   --hijau:#16A34A; --hijau-muda:#F0FDF4;
 
   --capai:#15803D; --dekat:#B07A00; --kurang:#DC2626; --netral:#94A3B8;
-  --rel:#E2E8F0; --sorot-baris:#F4F8FD;
+  --rel:#E2E8F0;
   --iris-0:#002F5F; --iris-1:#14539A; --iris-2:#4F8FD6; --iris-3:#9CC3EE;
   --iris-4:#F5B301; --iris-5:#C48A00; --iris-6:#7A5600; --iris-7:#94A3B8;
 
-  --radius-sm:8px; --radius-md:16px; --radius-lg:22px;
-  --kaca:rgba(255,255,255,.70);
-  --kaca-pekat:rgba(255,255,255,.82);
-  --kaca-tipis:rgba(255,255,255,.52);
-  --kaca-tepi:rgba(255,255,255,.75);
-  --kaca-tepi-tua:rgba(0,47,95,.10);
-  --buram:saturate(175%) blur(20px);
-  --batik:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22%3E%3Cg transform=%22translate(32.0 32.0) scale(0.56)%22%3E%3Cg fill=%22none%22 stroke=%22%23002F5F%22 stroke-width=%223.4%22 stroke-opacity=%22.10%22 stroke-linecap=%22round%22%3E%3Cpath transform=%22rotate(0 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(90 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(180 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(270 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2230%22 stroke-dasharray=%223 4%22 stroke-width=%222%22/%3E%3C/g%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%224.5%22 fill=%22%23002F5F%22 fill-opacity=%22.10%22/%3E%3C/g%3E%3Cg transform=%22translate(-28.0 -28.0) scale(0.56)%22%3E%3Cg fill=%22none%22 stroke=%22%23C48A00%22 stroke-width=%223.4%22 stroke-opacity=%22.10%22 stroke-linecap=%22round%22%3E%3Cpath transform=%22rotate(0 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(90 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(180 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(270 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2230%22 stroke-dasharray=%223 4%22 stroke-width=%222%22/%3E%3C/g%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%224.5%22 fill=%22%23C48A00%22 fill-opacity=%22.10%22/%3E%3C/g%3E%3Cg transform=%22translate(92.0 -28.0) scale(0.56)%22%3E%3Cg fill=%22none%22 stroke=%22%23C48A00%22 stroke-width=%223.4%22 stroke-opacity=%22.10%22 stroke-linecap=%22round%22%3E%3Cpath transform=%22rotate(0 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(90 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(180 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(270 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2230%22 stroke-dasharray=%223 4%22 stroke-width=%222%22/%3E%3C/g%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%224.5%22 fill=%22%23C48A00%22 fill-opacity=%22.10%22/%3E%3C/g%3E%3Cg transform=%22translate(-28.0 92.0) scale(0.56)%22%3E%3Cg fill=%22none%22 stroke=%22%23C48A00%22 stroke-width=%223.4%22 stroke-opacity=%22.10%22 stroke-linecap=%22round%22%3E%3Cpath transform=%22rotate(0 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(90 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(180 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(270 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2230%22 stroke-dasharray=%223 4%22 stroke-width=%222%22/%3E%3C/g%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%224.5%22 fill=%22%23C48A00%22 fill-opacity=%22.10%22/%3E%3C/g%3E%3Cg transform=%22translate(92.0 92.0) scale(0.56)%22%3E%3Cg fill=%22none%22 stroke=%22%23C48A00%22 stroke-width=%223.4%22 stroke-opacity=%22.10%22 stroke-linecap=%22round%22%3E%3Cpath transform=%22rotate(0 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(90 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(180 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(270 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2230%22 stroke-dasharray=%223 4%22 stroke-width=%222%22/%3E%3C/g%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%224.5%22 fill=%22%23C48A00%22 fill-opacity=%22.10%22/%3E%3C/g%3E%3C/svg%3E");
+  --radius-sm:6px; --radius-md:10px; --radius-lg:16px; --radius-xl:24px;
   --bayangan-sm:0 1px 3px rgba(0,47,95,.05);
   --bayangan-md:0 4px 14px -2px rgba(0,47,95,.08),0 2px 6px -1px rgba(0,47,95,.04);
   --bayangan-lg:0 12px 28px -4px rgba(0,47,95,.12),0 4px 10px -2px rgba(0,47,95,.06);
   --transisi:all .2s cubic-bezier(.4,0,.2,1);
 
-  /* Ornamen kerawang khas Kalimantan, yaitu sulur berpilin yang
-     dipakai sebagai pita pembatas dan roset empat arah di sudut kop. */
-  --motif:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 10%22%3E%3Cpath d=%22M0 8.6 H24%22 fill=%22none%22 stroke=%22%23F5B301%22 stroke-width=%22.8%22/%3E%3Cpath d=%22M4.2 8.6 C4.2 3.4 8.6 1.4 10.4 3.8 C11.8 5.6 10.2 7.8 8.6 7 C7.5 6.4 7.9 5 9 5.2%22 fill=%22none%22 stroke=%22%23F5B301%22 stroke-width=%221.05%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M12.6 8.6 C14.6 8.6 15.4 6.6 17 6.6 C18.4 6.6 19 7.6 19 8.6%22 fill=%22none%22 stroke=%22%237FB3E8%22 stroke-width=%22.9%22 stroke-linecap=%22round%22/%3E%3Ccircle cx=%2221.4%22 cy=%226.4%22 r=%22.85%22 fill=%22%237FB3E8%22/%3E%3Ccircle cx=%222.2%22 cy=%226.6%22 r=%22.7%22 fill=%22%23F5B301%22/%3E%3C/svg%3E");
-  --motif-terang:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 10%22%3E%3Cpath d=%22M0 8.6 H24%22 fill=%22none%22 stroke=%22%23F5B301%22 stroke-width=%22.8%22/%3E%3Cpath d=%22M4.2 8.6 C4.2 3.4 8.6 1.4 10.4 3.8 C11.8 5.6 10.2 7.8 8.6 7 C7.5 6.4 7.9 5 9 5.2%22 fill=%22none%22 stroke=%22%23F5B301%22 stroke-width=%221.05%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M12.6 8.6 C14.6 8.6 15.4 6.6 17 6.6 C18.4 6.6 19 7.6 19 8.6%22 fill=%22none%22 stroke=%22%2314539A%22 stroke-width=%22.9%22 stroke-linecap=%22round%22/%3E%3Ccircle cx=%2221.4%22 cy=%226.4%22 r=%22.85%22 fill=%22%2314539A%22/%3E%3Ccircle cx=%222.2%22 cy=%226.6%22 r=%22.7%22 fill=%22%23F5B301%22/%3E%3C/svg%3E");
-  --roset:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cg fill=%22none%22 stroke-width=%222.6%22 stroke-linecap=%22round%22%3E%3Cg stroke=%22%23F5B301%22%3E%3Cpath d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(90 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3C/g%3E%3Cg stroke=%22%23FFFFFF%22%3E%3Cpath transform=%22rotate(180 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3Cpath transform=%22rotate(270 50 50)%22 d=%22M50 50 C50 32 62 22 72 28 C80 33 78 45 69 45 C63 45 61 38 66 36%22/%3E%3C/g%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2230%22 stroke=%22%23F5B301%22 stroke-width=%221.6%22 stroke-dasharray=%222.5 3.5%22/%3E%3C/g%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%224%22 fill=%22%23F5B301%22/%3E%3C/svg%3E");
+  /* Lapisan kaca, sama dengan kartu beranda perkakas PDF. */
+  --kaca:rgba(255,255,255,.62);
+  --kaca-pekat:rgba(255,255,255,.88);
+  --kaca-tipis:rgba(255,255,255,.55);
+  --buram:blur(12px);
+
+  /* Pita belah ketupat, dipakai di dasar kop dan di atas kaki halaman. */
+  --motif-pita:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='10' viewBox='0 0 20 10'%3E%3Cpolygon points='10,0 20,5 10,10 0,5' fill='%23F5B301'/%3E%3Cpolygon points='10,2.5 15,5 10,7.5 5,5' fill='%23002F5F'/%3E%3C/svg%3E");
+  /* Pita kecil di bawah judul panel, belah ketupat yang direntangkan. */
+  --motif-kecil:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' preserveAspectRatio='none'%3E%3Cpolygon points='6,0 12,4 6,8 0,4' fill='%23F5B301'/%3E%3Cpolygon points='6,1.5 9,4 6,6.5 3,4' fill='%23002F5F'/%3E%3C/svg%3E");
+  /* Sulur di sudut kanan bawah kop. */
+  --sulur:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 5 C68 5 82 18 82 35 C82 48 73 54 63 50 C56 47 55 39 61 36 C66 34 69 39 65 42' fill='none' stroke='%23F5B301' stroke-width='2.5'/%3E%3Cpath d='M50 5 C40 8 33 16 34 26 C35 34 42 37 47 33 C51 30 50 24 45 23' fill='none' stroke='%23FFFFFF' stroke-width='2.5'/%3E%3Cpath d='M10 55 C10 40 22 30 36 32 C46 33 48 43 40 46 C34 48 31 41 36 39' fill='none' stroke='%23FFFFFF' stroke-width='2.5'/%3E%3Cpath d='M10 55 C4 65 5 78 15 84 C23 89 32 84 30 76 C29 70 22 69 20 74' fill='none' stroke='%23F5B301' stroke-width='2.5'/%3E%3Cpath d='M82 35 C90 42 92 54 85 62 C79 69 68 67 68 59 C68 54 74 52 77 56' fill='none' stroke='%23F5B301' stroke-width='2'/%3E%3Cpath d='M36 32 C48 26 62 28 68 38' fill='none' stroke='%23FFFFFF' stroke-width='1.5' stroke-dasharray='2 3'/%3E%3Ccircle cx='50' cy='5' r='3.5' fill='%23F5B301'/%3E%3Ccircle cx='10' cy='55' r='3.5' fill='%23FFFFFF'/%3E%3Ccircle cx='82' cy='35' r='3' fill='%23F5B301'/%3E%3Ccircle cx='15' cy='84' r='3' fill='%23FFFFFF'/%3E%3C/svg%3E");
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  color:var(--tinta);
-  background-color:#EDF2F9;
-  background-image:var(--batik),
-    radial-gradient(900px 560px at 8% -6%,rgba(20,83,154,.16),transparent 62%),
-    radial-gradient(760px 520px at 94% 2%,rgba(245,179,1,.18),transparent 58%),
-    linear-gradient(168deg,#EFF4FB 0%,#E9EFF8 52%,#F6F1E6 100%);
-  background-repeat:repeat,no-repeat,no-repeat,no-repeat;
-  background-size:120px 120px,auto,auto,auto;
-  background-attachment:fixed;
+  background:var(--latar);color:var(--tinta);
   font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  font-size:15px;line-height:1.55;
+  font-size:16px;line-height:1.6;
   font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;
 }
+/* Semburat emas dan biru di belakang halaman, supaya kaca punya
+   sesuatu untuk diburamkan. Warna dasar latar tetap --latar. */
+body::before{
+  content:"";position:fixed;top:0;right:0;bottom:0;left:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(640px 460px at 90% 45%,rgba(245,179,1,.14),transparent 70%),
+    radial-gradient(720px 520px at 4% 82%,rgba(20,83,154,.13),transparent 70%);
+}
 .num{font-variant-numeric:tabular-nums;white-space:nowrap}
-.bungkus{max-width:1160px;margin:0 auto;padding:0 24px 72px}
+.bungkus{max-width:1160px;margin:0 auto;padding:12px 24px 32px}
 
 /* ---------- bilah menu emas ---------- */
 .menu{
   position:sticky;top:0;z-index:100;
-  background:linear-gradient(180deg,rgba(245,179,1,.88),rgba(245,179,1,.72));
+  background:rgba(245,179,1,.84);
   -webkit-backdrop-filter:var(--buram);backdrop-filter:var(--buram);
-  border-bottom:1px solid rgba(196,138,0,.55);
-  box-shadow:0 6px 24px rgba(0,47,95,.12);
+  border-bottom:3px solid var(--emas);
+  box-shadow:var(--bayangan-md);
 }
 .menu-isi{
-  max-width:1160px;margin:0 auto;padding:0 24px;min-height:62px;
+  max-width:1160px;margin:0 auto;padding:0 24px;min-height:64px;
   display:flex;align-items:center;gap:12px;flex-wrap:wrap;
 }
 .menu-nama{
-  font-size:20px;font-weight:700;color:var(--biru-tua);
+  font-size:21px;font-weight:700;color:#002A55;
   letter-spacing:-.01em;white-space:nowrap;margin-right:auto;
 }
 .alat{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 0}
 
 /* ---------- tombol ---------- */
 button,.tombol{
-  font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;
-  padding:9px 18px;min-height:40px;
+  font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;
+  padding:12px 24px;min-height:48px;
   border:1px solid transparent;border-radius:var(--radius-sm);
   background:var(--biru-tua);color:var(--putih);
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   transition:var(--transisi);box-shadow:var(--bayangan-sm);
 }
 button:hover,.tombol:hover{background:var(--biru);transform:translateY(-1px);box-shadow:var(--bayangan-md)}
-button.sunyi{background:var(--kaca-pekat);color:var(--biru-tua);border-color:var(--kaca-tepi);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+button.sunyi{background:var(--putih);color:var(--biru-tua);border-color:var(--garis)}
 button.sunyi:hover{background:var(--biru-muda);border-color:rgba(20,83,154,.2)}
+button.kecil{font-size:14px;padding:8px 16px;min-height:38px}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none!important;box-shadow:none!important}
 button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--emas);outline-offset:2px}
+
+/* Tombol pada bilah menu mengikuti tombol "Daftar Perkakas PDF". */
+.menu button{
+  font-size:14px;padding:8px 16px;min-height:38px;
+  background:var(--biru);color:var(--putih);border-color:var(--emas);
+}
+.menu button:hover{background:#0D3F78;color:var(--emas);transform:none;box-shadow:var(--bayangan-sm)}
+.menu button:focus-visible{outline-color:var(--biru-tua)}
 
 /* ---------- kop ---------- */
 .kop{
   position:relative;overflow:hidden;color:var(--putih);
-  background:linear-gradient(135deg,rgba(0,47,95,.93) 0%,rgba(0,24,50,.90) 100%);
-  -webkit-backdrop-filter:var(--buram);backdrop-filter:var(--buram);
-  border-bottom:3px solid rgba(245,179,1,.9);
+  background:
+    var(--motif-pita) bottom center / 20px 10px repeat-x,
+    linear-gradient(135deg,var(--biru-tua) 0%,#001E3D 100%);
+  border-bottom:4px solid var(--emas);
 }
 .kop::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(circle at top right,rgba(245,179,1,.10),transparent 50%);
+  content:"";position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none;
+  background:radial-gradient(circle at top right,rgba(245,179,1,.08),transparent 50%);
 }
 .kop::before{
-  content:"";position:absolute;bottom:-26px;right:-22px;width:190px;height:190px;
-  background:var(--roset) no-repeat;background-size:contain;opacity:.16;pointer-events:none;
+  content:"";position:absolute;bottom:-20px;right:-20px;width:160px;height:160px;
+  background:var(--sulur) no-repeat;background-size:contain;opacity:.1;pointer-events:none;
 }
-.kop-isi::before{
-  content:"";position:absolute;top:-34px;left:-52px;width:120px;height:120px;
-  background:var(--roset) no-repeat;background-size:contain;opacity:.09;pointer-events:none;
-}
-.kop-isi{max-width:1160px;margin:0 auto;padding:40px 24px 34px;position:relative;z-index:1}
+.kop-isi{max-width:1160px;margin:0 auto;padding:32px 24px 44px;position:relative;z-index:1}
 .kop h1{
-  font-weight:600;font-size:clamp(26px,4.2vw,38px);line-height:1.15;
-  letter-spacing:-.02em;margin:0 0 10px;color:var(--putih);
+  font-weight:600;font-size:clamp(30px,5vw,44px);line-height:1.15;
+  letter-spacing:-.02em;margin:0 0 12px;color:var(--putih);
 }
 .kop h1 em{color:var(--emas);font-style:normal;font-weight:700}
-.subjudul{margin:0;color:#CBDCEF;font-size:15.5px;max-width:80ch}
-.pita-kop{height:15px;background:var(--biru-tua) var(--motif) repeat-x;background-size:36px 15px;border-bottom:1px solid var(--garis)}
+.subjudul{margin:0;color:#CBDCEF;font-size:17px;line-height:1.6;max-width:92ch}
 
 /* ---------- tab ---------- */
-nav.tab{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 22px}
+nav.tab{display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 22px}
 nav.tab button{
-  background:var(--kaca-pekat);color:var(--biru-tua);border:1px solid var(--kaca-tepi);
-  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
-  font-weight:600;padding:9px 18px;
+  font-size:14px;padding:9px 18px;min-height:42px;
+  background:var(--kaca);color:var(--biru-tua);border-color:var(--garis);
+  -webkit-backdrop-filter:var(--buram);backdrop-filter:var(--buram);
 }
-nav.tab button:hover{background:var(--biru-muda);transform:none}
-nav.tab button[aria-selected="true"]{background:rgba(0,47,95,.92);color:var(--putih);border-color:rgba(0,47,95,.92)}
+nav.tab button:hover{background:var(--biru-muda);border-color:rgba(20,83,154,.2);transform:none}
+nav.tab button[aria-selected="true"]{background:var(--biru-tua);color:var(--putih);border-color:var(--biru-tua)}
 
 /* ---------- sorotan telusur output ---------- */
 nav.tab button[data-tab="telusur"][aria-selected="false"]{
-  background:rgba(255,244,214,.82);border-color:rgba(245,179,1,.85);color:var(--biru-tua);
+  background:var(--emas-muda);border-color:var(--emas);color:var(--biru-tua);
 }
 nav.tab button[data-tab="telusur"][aria-selected="false"]:hover{background:#FFEFC2}
 .lencana{
@@ -154,22 +161,22 @@ nav.tab button[aria-selected="true"] .lencana{background:var(--emas);color:var(-
 .panel{
   background:var(--kaca);
   -webkit-backdrop-filter:var(--buram);backdrop-filter:var(--buram);
-  border:1px solid var(--kaca-tepi);border-top:3px solid rgba(0,47,95,.75);
+  border:1px solid var(--garis);
   border-radius:var(--radius-md);
-  box-shadow:0 10px 30px rgba(0,47,95,.10),inset 0 1px 0 rgba(255,255,255,.6);
-  padding:22px 24px;margin-bottom:20px;
+  box-shadow:var(--bayangan-sm);
+  padding:24px;margin-bottom:20px;
 }
 .panel h2{
-  font-size:19px;font-weight:600;color:var(--biru-tua);letter-spacing:-.01em;
-  margin:0 0 16px;
+  font-size:21px;font-weight:600;color:var(--biru-tua);letter-spacing:-.01em;
+  line-height:1.3;margin:0 0 18px;
 }
 .panel h2::after{
-  content:"";display:block;width:110px;height:10px;margin-top:9px;
-  background:var(--motif-terang) repeat-x;background-size:24px 10px;
+  content:"";display:block;width:120px;height:8px;margin-top:10px;
+  background:var(--motif-kecil) left center / 60px 8px repeat-x;
 }
-.panel h3{font-size:15px;font-weight:600;margin:24px 0 9px;color:var(--biru)}
-.panel > p:first-of-type{margin-top:0}
-.ket{color:var(--tinta-lembut);font-size:13.5px;margin:12px 0 0}
+.panel h3{font-size:16px;font-weight:600;margin:24px 0 9px;color:var(--biru)}
+.panel > p:first-of-type:not(.ket){margin-top:0}
+.ket{color:var(--tinta-lembut);font-size:14px;margin:14px 0 0}
 
 /* ---------- hero ---------- */
 .hero{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:32px;align-items:start}
@@ -177,8 +184,8 @@ nav.tab button[aria-selected="true"] .lencana{background:var(--emas);color:var(-
 .angka-besar small{font-size:27px;font-weight:600;margin-left:2px;color:var(--biru)}
 .kabar{margin:8px 0 20px;font-size:15px;color:var(--tinta-lembut)}
 .kabar b{color:var(--biru-tua);font-weight:700}
-.ringkas{border-collapse:collapse;width:100%;background:var(--kaca-tipis);
-  border:1px solid var(--kaca-tepi);border-radius:var(--radius-sm);overflow:hidden}
+.ringkas{border-collapse:separate;border-spacing:0;width:100%;background:var(--kaca-pekat);
+  border:1px solid var(--garis);border-radius:var(--radius-sm);overflow:hidden}
 .ringkas td{padding:9px 14px;border-bottom:1px solid var(--garis);font-size:14.5px}
 .ringkas td:first-child{color:var(--tinta-lembut)}
 .ringkas td:last-child{text-align:right;font-weight:700;color:var(--biru-tua)}
@@ -196,17 +203,17 @@ nav.tab button[aria-selected="true"] .lencana{background:var(--emas);color:var(-
 .skala{display:flex;justify-content:space-between;font-size:12px;color:var(--tinta-lembut);margin-top:6px}
 
 /* ---------- tabel ---------- */
-.gulir{overflow-x:auto;border:1px solid var(--kaca-tepi-tua);border-radius:var(--radius-sm);background:var(--kaca-tipis)}
+.gulir{overflow-x:auto;border:1px solid var(--garis);border-radius:var(--radius-sm);background:var(--kaca-pekat)}
 table.data{border-collapse:collapse;width:100%;font-size:14px;background:transparent}
 table.data th,table.data td{padding:9px 12px;border-bottom:1px solid var(--garis);text-align:left;vertical-align:top}
 table.data thead th{
-  background:rgba(235,243,252,.85);color:var(--biru-tua);
+  background:var(--biru-muda);color:var(--biru-tua);
   font-size:12.5px;font-weight:700;white-space:nowrap;border-bottom:1px solid var(--garis-fokus);
 }
 table.data td.n,table.data th.n{text-align:right}
-table.data tbody tr:hover{background:rgba(255,255,255,.55)}
+table.data tbody tr:hover{background:rgba(235,243,252,.55)}
 table.data tbody tr:last-child td{border-bottom:0}
-table.data tr.jumlah td{background:rgba(255,248,230,.85);border-top:2px solid rgba(245,179,1,.9);font-weight:700;color:var(--biru-tua)}
+table.data tr.jumlah td{background:var(--emas-muda);border-top:2px solid var(--emas);font-weight:700;color:var(--biru-tua)}
 table.data td.lebar{min-width:230px}
 
 .status{font-weight:700;white-space:nowrap;font-size:13.5px}
@@ -250,7 +257,7 @@ svg{display:block;width:100%;height:auto}
   display:flex;gap:14px;align-items:flex-start;
   background:var(--hijau-muda);border-left:4px solid var(--hijau);
   border-radius:0 var(--radius-sm) var(--radius-sm) 0;box-shadow:var(--bayangan-sm);
-  padding:14px 18px;margin:0 0 18px;font-size:14.5px;color:#166534;
+  padding:16px 20px;margin:0 0 20px;font-size:15px;color:#166534;
 }
 .rekon.gagal{background:var(--bahaya-muda);border-left-color:var(--bahaya);color:#991B1B}
 .rekon b{display:block;font-weight:700}
@@ -258,85 +265,86 @@ svg{display:block;width:100%;height:auto}
 
 /* ---------- kotak unggah ---------- */
 .pilih{
-  border:2px dashed rgba(0,47,95,.28);border-radius:var(--radius-md);
+  border:2px dashed var(--garis-fokus);border-radius:var(--radius-md);
   background:var(--kaca);-webkit-backdrop-filter:var(--buram);backdrop-filter:var(--buram);
-  box-shadow:0 10px 30px rgba(0,47,95,.10);
-  padding:54px 28px;text-align:center;margin-top:28px;transition:var(--transisi);
+  box-shadow:var(--bayangan-sm);
+  padding:52px 28px;text-align:center;margin-top:28px;transition:var(--transisi);
 }
-.pilih.aktif,.pilih:hover{border-color:var(--emas-tua);background:var(--emas-muda);box-shadow:var(--bayangan-md)}
-.pilih h2{font-size:21px;font-weight:700;color:var(--biru-tua);margin:0 0 8px}
-.pilih p{color:var(--tinta-lembut);margin:0 auto 22px;max-width:58ch}
+.pilih.aktif,.pilih:hover{border-color:var(--emas-tua);background:var(--emas-muda);transform:translateY(-2px);box-shadow:var(--bayangan-md)}
+.pilih h2{font-size:20px;font-weight:700;color:var(--biru-tua);margin:0 0 6px}
+.pilih p{color:var(--tinta-lembut);font-size:15px;margin:0 auto 22px;max-width:58ch}
 input[type=file]{display:none}
 .galat{color:var(--bahaya);font-weight:700;margin-top:14px}
 
 /* ---------- isian ---------- */
 .medan{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px 22px;margin-bottom:6px}
-label.baris{display:block;font-size:14px;color:var(--tinta);font-weight:600;margin-bottom:7px}
+label.baris{display:block;font-size:14px;color:var(--tinta);font-weight:600;margin-bottom:8px}
 input[type=text],input[type=number],input[type=date],select{
-  font-family:inherit;font-size:14.5px;width:100%;padding:10px 13px;
-  border:1px solid var(--kaca-tepi);border-radius:var(--radius-sm);
-  background:var(--kaca-pekat);color:var(--tinta);
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  font-family:inherit;font-size:15px;width:100%;padding:12px 16px;
+  border:1px solid var(--garis);border-radius:var(--radius-sm);
+  background:var(--putih);color:var(--tinta);
+  transition:var(--transisi);box-shadow:var(--bayangan-sm);
 }
 input:focus-visible,select:focus-visible{outline:none;border-color:var(--biru);box-shadow:0 0 0 3px rgba(20,83,154,.15)}
-table.data input[type=number]{width:92px;text-align:right;padding:6px 9px}
-table.data select{min-width:210px;padding:6px 9px}
+table.data input[type=number]{width:92px;text-align:right;padding:6px 9px;font-size:14px;box-shadow:none}
+table.data select{min-width:210px;padding:6px 9px;font-size:14px;box-shadow:none}
 tr.belum{background:var(--emas-muda)}
 .sembunyi{display:none!important}
 
 /* ---------- pemilih cetak ---------- */
 .tirai{
-  position:fixed;inset:0;z-index:200;background:rgba(0,30,61,.38);
+  position:fixed;top:0;right:0;bottom:0;left:0;z-index:200;background:rgba(0,30,61,.38);
   -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
   display:flex;align-items:flex-start;justify-content:center;padding:6vh 20px;overflow:auto;
 }
 .dialog{
-  background:rgba(255,255,255,.86);
+  background:rgba(255,255,255,.92);
   -webkit-backdrop-filter:var(--buram);backdrop-filter:var(--buram);
-  border:1px solid var(--kaca-tepi);border-top:3px solid rgba(0,47,95,.8);
+  border:1px solid var(--garis);
   border-radius:var(--radius-md);box-shadow:var(--bayangan-lg);
-  padding:22px 24px;width:min(560px,100%);
+  padding:24px;width:min(560px,100%);
 }
-.dialog h2{font-size:18px;font-weight:600;color:var(--biru-tua);margin:0 0 14px}
+.dialog h2{font-size:21px;font-weight:600;color:var(--biru-tua);margin:0 0 14px}
 .centang{display:flex;gap:9px;align-items:flex-start;font-size:14px;padding:5px 0;cursor:pointer}
-.centang input{width:16px;height:16px;flex:0 0 16px;margin-top:2px;accent-color:var(--biru-tua)}
+.centang input{width:16px;height:16px;flex:0 0 16px;margin-top:3px;accent-color:var(--biru-tua)}
 .centang.tebal{font-weight:600;color:var(--biru-tua)}
 .pilih-alat{display:flex;gap:8px;align-items:center;margin:12px 0 8px}
 .pilih-alat .hitung{margin-left:auto;font-size:13px;color:var(--tinta-lembut)}
 .daftar-centang{
-  max-height:38vh;overflow:auto;border:1px solid var(--kaca-tepi-tua);border-radius:var(--radius-sm);
-  padding:8px 12px;background:var(--kaca-tipis);
+  max-height:38vh;overflow:auto;border:1px solid var(--garis);border-radius:var(--radius-sm);
+  padding:8px 12px;background:var(--putih);
 }
 .daftar-centang .centang{border-bottom:1px solid var(--garis)}
 .daftar-centang .centang:last-child{border-bottom:0}
 .daftar-centang .kode{font-weight:700;color:var(--biru-tua);margin-right:6px}
-.dialog-alat{display:flex;gap:9px;justify-content:flex-end;margin-top:18px}
+.dialog-alat{display:flex;gap:12px;justify-content:flex-end;margin-top:20px}
 #cetakPilihan{display:none}
 .ket-cetak{color:var(--tinta-lembut);font-size:13.5px;margin:-6px 0 14px}
 
 /* ---------- tabel item bertingkat ala kertas kerja ---------- */
 table.data tr.grup-sub td{
-  background:rgba(235,243,252,.9);color:var(--biru-tua);font-weight:700;
+  background:var(--biru-muda);color:var(--biru-tua);font-weight:700;
   border-top:1px solid var(--garis-fokus);
 }
-table.data tr.grup-akun td{background:rgba(255,255,255,.5);font-weight:600;color:var(--tinta)}
+table.data tr.grup-akun td{background:rgba(248,250,252,.9);font-weight:600;color:var(--tinta)}
 table.data tr.grup-akun td b{color:var(--biru)}
 table.data tr.grup-item td.rinci-item{padding-left:30px;color:var(--tinta-lembut)}
 table.data tr.grup-item td{font-size:13.5px}
 table.data tr.grup-sub:hover td,table.data tr.grup-akun:hover td{filter:brightness(.98)}
 
 /* ---------- pemilih rincian output ---------- */
-.penunjuk{border-top-color:rgba(245,179,1,.9);background:linear-gradient(180deg,rgba(255,244,214,.78),rgba(255,255,255,.55) 78%)}
+/* Garis emas di kiri mengikuti kotak .janji pada perkakas PDF. */
+.penunjuk{border-left:4px solid var(--emas)}
 /* isian pemilih disusun menurun agar nama rincian output terbaca utuh */
 .penunjuk .medan{grid-template-columns:1fr;gap:14px}
 .penunjuk .pilihan-besar{max-width:720px}
 .penunjuk .pilihan-besar #pilihRo{flex:1 1 auto;min-width:0;text-overflow:ellipsis}
-.tanya{font-size:14.5px;color:var(--tinta-lembut);margin:0 0 14px}
+.tanya{font-size:15px;color:var(--tinta-lembut);margin:0 0 14px}
 .tanya b{color:var(--biru-tua);font-weight:700}
 .pilihan-besar{display:flex;gap:8px;align-items:center}
 #pilihRo{
-  font-size:15.5px;font-weight:600;color:var(--biru-tua);box-shadow:0 2px 10px rgba(0,47,95,.08);
-  padding:11px 40px 11px 14px;border:1.5px solid var(--biru);border-radius:var(--radius-sm);
+  font-size:15.5px;font-weight:600;color:var(--biru-tua);
+  padding:12px 40px 12px 16px;border:1.5px solid var(--biru);border-radius:var(--radius-sm);
   background-color:var(--putih);
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 8l5 5 5-5' fill='none' stroke='%23002F5F' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 12px center;background-size:18px;
@@ -344,33 +352,45 @@ table.data tr.grup-sub:hover td,table.data tr.grup-akun:hover td{filter:brightne
 }
 #pilihRo:hover{background-color:var(--biru-muda)}
 .langkah{
-  flex:0 0 auto;width:42px;height:46px;min-height:0;padding:0;font-size:20px;line-height:1;
-  background:var(--kaca-pekat);color:var(--biru-tua);border:1px solid var(--kaca-tepi);
+  flex:0 0 auto;width:44px;height:48px;min-height:0;padding:0;font-size:20px;line-height:1;
+  background:var(--putih);color:var(--biru-tua);border-color:var(--garis);
 }
-.langkah:hover{background:var(--biru-muda)}
+.langkah:hover{background:var(--biru-muda);border-color:rgba(20,83,154,.2)}
 .langkah[disabled]{opacity:.35;cursor:default;transform:none;box-shadow:none}
-.langkah[disabled]:hover{background:var(--putih)}
+.langkah[disabled]:hover{background:var(--putih);border-color:var(--garis)}
 
 /* ---------- kaki halaman ---------- */
+/* 46px memberi tempat bagi pita belah ketupat di atas garis kaki. */
 footer.kaki{
-  margin-top:48px;padding-top:22px;border-top:3px solid var(--biru-tua);
-  font-size:14px;color:var(--tinta-lembut);
+  margin-top:46px;padding-top:24px;border-top:3px solid var(--biru-tua);
+  font-size:14px;color:var(--tinta-lembut);position:relative;
 }
-footer.kaki::before{content:"";display:block;height:10px;margin:-22px 0 18px;
-  background:var(--motif-terang) repeat-x;background-size:24px 10px}
+footer.kaki::before{content:"";display:block;height:2px;background:var(--emas);margin:-27px 0 24px}
+footer.kaki::after{
+  content:"";position:absolute;left:0;right:0;top:-26px;height:10px;
+  background:var(--motif-pita) center / 20px 10px repeat-x;
+}
 
 @media (max-width:860px){
   .hero,.bagan{grid-template-columns:1fr}
   .angka-besar{font-size:50px}
   .panel{padding:18px 16px}
   .menu-nama{font-size:17px}
+  .subjudul{font-size:15.5px}
+  .bungkus{padding-left:16px;padding-right:16px}
+  .kop-isi{padding:26px 16px 38px}
+  .menu-isi{padding:0 16px}
 }
+/* Peramban tanpa backdrop-filter mendapat warna pekat seperti semula. */
 @supports not ((-webkit-backdrop-filter:blur(2px)) or (backdrop-filter:blur(2px))){
-  :root{--kaca:rgba(255,255,255,.94);--kaca-pekat:rgba(255,255,255,.97);--kaca-tipis:rgba(255,255,255,.88)}
+  :root{--kaca:var(--putih);--kaca-pekat:var(--putih);--kaca-tipis:var(--putih)}
+  .menu{background:var(--emas)}
+  .dialog{background:var(--putih)}
 }
 @media (prefers-reduced-transparency:reduce){
-  :root{--kaca:rgba(255,255,255,.95);--kaca-pekat:#fff;--kaca-tipis:rgba(255,255,255,.9)}
-  .panel,.menu,.kop,.pilih,.dialog,.tirai{-webkit-backdrop-filter:none;backdrop-filter:none}
+  :root{--kaca:var(--putih);--kaca-pekat:var(--putih);--kaca-tipis:var(--putih)}
+  .menu{background:var(--emas)}
+  .panel,.menu,.pilih,.dialog,.tirai,nav.tab button{-webkit-backdrop-filter:none;backdrop-filter:none}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
@@ -380,10 +400,11 @@ footer.kaki::before{content:"";display:block;height:10px;margin:-22px 0 18px;
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:none!important;
     -webkit-backdrop-filter:none!important;backdrop-filter:none!important}
   html,body{background:#fff!important;background-image:none!important;font-size:7.6pt;line-height:1.28}
+  body::before{display:none}
   .panel,.gulir,.ringkas,table.data,table.data thead th,table.data tr.jumlah td,
   table.data tr.grup-sub td,table.data tr.grup-akun td,nav.tab button{background-image:none}
   .bungkus{max-width:none;padding:0}
-  .menu,nav.tab,.pilih,#baganUnit,.legenda,.ket,#rekon,.pita-kop,footer.kaki,.langkah,.tanya{display:none!important}
+  .menu,nav.tab,.pilih,#baganUnit,.legenda,.ket,#rekon,footer.kaki,.langkah,.tanya{display:none!important}
 
   /* Penyusutan akhir agar Ringkasan muat satu halaman A4. Kalau masih
      ada baris yang meluber ke halaman kedua, turunkan angka ini sedikit,
@@ -395,14 +416,14 @@ footer.kaki::before{content:"";display:block;height:10px;margin:-22px 0 18px;
   .kop-isi{padding:0 0 4pt}
   .kop h1{font-size:12pt;color:var(--biru-tua);margin:0 0 2pt}
   .kop h1 em{color:var(--biru-tua)}
-  .subjudul{font-size:7.3pt;color:var(--tinta-lembut)}
+  .subjudul{font-size:7.3pt;line-height:1.28;max-width:none;color:var(--tinta-lembut)}
 
   .panel{background:#fff;border:0;border-top:.6pt solid var(--garis);border-radius:0;
     padding:4pt 0 0;margin:0 0 4.5pt}
-  .panel h2{font-size:8.4pt;margin:0 0 3pt;break-after:avoid;page-break-after:avoid}
+  .panel h2{font-size:8.4pt;line-height:1.28;margin:0 0 3pt;break-after:avoid;page-break-after:avoid}
   .panel h2::after{display:none}
   .panel h3{font-size:8pt;margin:6pt 0 3pt;break-after:avoid;page-break-after:avoid}
-  .penunjuk{background:#fff}
+  .penunjuk{background:#fff;border-left:0}
   table.data tr.grup-sub td{background:var(--biru-muda)}
   table.data tr.grup-akun td{background:#fff;border-top:.35pt solid var(--garis)}
   table.data tr.grup-item td.rinci-item{padding-left:12pt}
@@ -415,10 +436,10 @@ footer.kaki::before{content:"";display:block;height:10px;margin:-22px 0 18px;
   .rel{height:11pt}
   .rel-kecil{height:6pt}
   .skala{font-size:6.6pt;margin-top:2pt}
-  .ringkas{background:#fff}
+  .ringkas{background:#fff;border-collapse:collapse}
   .ringkas td{padding:1.3pt 5pt;font-size:7.6pt}
 
-  .gulir{overflow:visible;border:0;border-radius:0}
+  .gulir{overflow:visible;border:0;border-radius:0;background:transparent}
   table.data{font-size:6.7pt}
   table.data th,table.data td{padding:1.3pt 3.5pt;border-bottom:.35pt solid var(--garis)}
   table.data thead th{font-size:6.2pt;background:var(--biru-muda)}
@@ -450,7 +471,7 @@ footer.kaki::before{content:"";display:block;height:10px;margin:-22px 0 18px;
     <div class="alat">
       
       
-      <button id="tombolCetak" class="sunyi">Cetak</button>
+      <button id="tombolCetak">Cetak</button>
     </div>
   </div>
 </nav>
@@ -461,7 +482,6 @@ footer.kaki::before{content:"";display:block;height:10px;margin:-22px 0 18px;
     <p class="subjudul" id="subJudul">Tahun Anggaran 2026   •   Realisasi s.d. September 2026   •   Diperbarui 29 September 2026   •   Satker 537962</p>
   </div>
 </header>
-<div class="pita-kop" aria-hidden="true"></div>
 
 <div class="bungkus">
   
