@@ -41,6 +41,7 @@
   --kaca:rgba(255,255,255,.62);
   --kaca-pekat:rgba(255,255,255,.88);
   --kaca-tipis:rgba(255,255,255,.55);
+  --kaca-sorot:rgba(236,240,245,.72);
   --buram:blur(12px);
 
   /* Pita belah ketupat, dipakai di dasar kop dan di atas kaki halaman. */
@@ -371,6 +372,35 @@ footer.kaki::after{
   background:var(--motif-pita) center / 20px 10px repeat-x;
 }
 
+/* ---------- pendar plasma di bawah kursor ----------
+   Hanya untuk perangkat berkursor dan selama animasi tidak dimatikan.
+   Pendar putih digambar di bawah isi kartu, jadi angka dan tabel tetap
+   di lapisan atas. Kartu yang disorot meredup sangat tipis supaya putih
+   pendarnya terbaca. Letak pendar ditulis skrip ke aturan
+   .panel:hover::before, bukan ke atribut elemen. */
+@media screen and (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .panel{position:relative;overflow:hidden;isolation:isolate;transition:background-color .35s ease}
+  .panel .gulir,.panel .ringkas{transition:background-color .35s ease}
+  .panel:hover{background-color:var(--kaca-sorot)}
+  .panel:hover .gulir,.panel:hover .ringkas{background-color:transparent}
+  .panel::before{
+    content:"";position:absolute;z-index:-1;pointer-events:none;
+    left:0;top:0;width:460px;height:460px;margin:-230px 0 0 -230px;
+    border-radius:50%;opacity:0;
+    background:
+      radial-gradient(circle at 36% 40%,rgba(255,255,255,.85),rgba(255,255,255,0) 36%),
+      radial-gradient(circle at 66% 60%,rgba(255,255,255,.75),rgba(255,255,255,0) 32%),
+      radial-gradient(circle at 60% 30%,rgba(255,255,255,.6),rgba(255,255,255,0) 28%),
+      radial-gradient(closest-side,rgba(255,255,255,.95),rgba(255,255,255,.5) 42%,rgba(255,255,255,0));
+    transition:opacity .35s ease,left 0s .35s,top 0s .35s;
+    animation:pendar-denyut 6s ease-in-out infinite,pendar-putar 14s linear infinite;
+    animation-play-state:paused;
+  }
+  .panel:hover::before{transition:opacity .35s ease,left 0s,top 0s;animation-play-state:running}
+}
+@keyframes pendar-denyut{0%,100%{scale:.94 1.06}50%{scale:1.08 .95}}
+@keyframes pendar-putar{to{rotate:360deg}}
+
 @media (max-width:860px){
   .hero,.bagan{grid-template-columns:1fr}
   .angka-besar{font-size:50px}
@@ -383,12 +413,12 @@ footer.kaki::after{
 }
 /* Peramban tanpa backdrop-filter mendapat warna pekat seperti semula. */
 @supports not ((-webkit-backdrop-filter:blur(2px)) or (backdrop-filter:blur(2px))){
-  :root{--kaca:var(--putih);--kaca-pekat:var(--putih);--kaca-tipis:var(--putih)}
+  :root{--kaca:var(--putih);--kaca-pekat:var(--putih);--kaca-tipis:var(--putih);--kaca-sorot:#F1F4F8}
   .menu{background:var(--emas)}
   .dialog{background:var(--putih)}
 }
 @media (prefers-reduced-transparency:reduce){
-  :root{--kaca:var(--putih);--kaca-pekat:var(--putih);--kaca-tipis:var(--putih)}
+  :root{--kaca:var(--putih);--kaca-pekat:var(--putih);--kaca-tipis:var(--putih);--kaca-sorot:#F1F4F8}
   .menu{background:var(--emas)}
   .panel,.menu,.pilih,.dialog,.tirai,nav.tab button{-webkit-backdrop-filter:none;backdrop-filter:none}
 }
@@ -1518,6 +1548,53 @@ pada('tab-parameter','change',e=>{
     hitungUlang(); return;
   }
 });
+
+/* ============================================================
+   7. Pendar plasma di bawah kursor
+   Letak pendar ditulis ke satu aturan gaya yang disisipkan lewat
+   skrip, bukan ke atribut elemen, sehingga salinan untuk pengguna
+   dan halaman cetak tidak ikut membawa jejaknya.
+   ============================================================ */
+(function(){
+  if(!window.matchMedia||!window.requestAnimationFrame) return;
+  if(!matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  let aturan;
+  try{
+    const lembar=document.querySelector('style').sheet;
+    aturan=lembar.cssRules[lembar.insertRule('.panel:hover::before{opacity:1;left:0;top:0}',lembar.cssRules.length)];
+  }catch(galat){ return; }
+
+  let kartu=null, px=-1, py=-1, x=0, y=0, tx=0, ty=0, jalan=0;
+  const tulis=()=>{ aturan.style.left=x.toFixed(1)+'px'; aturan.style.top=y.toFixed(1)+'px'; };
+
+  function bidik(simpul,lompat){
+    const p=simpul&&simpul.closest?simpul.closest('.panel'):null;
+    if(!p){ kartu=null; return; }
+    const r=p.getBoundingClientRect();
+    tx=px-r.left-p.clientLeft; ty=py-r.top-p.clientTop;
+    if(p!==kartu||lompat){ kartu=p; x=tx; y=ty; tulis(); return; }
+    if(!jalan) jalan=requestAnimationFrame(langkah);
+  }
+  /* pendar menyusul kursor dengan sedikit kelembaman */
+  function langkah(){
+    jalan=0;
+    if(!kartu) return;
+    x+=(tx-x)*.2; y+=(ty-y)*.2;
+    tulis();
+    if(Math.abs(tx-x)>.4||Math.abs(ty-y)>.4) jalan=requestAnimationFrame(langkah);
+  }
+
+  document.addEventListener('pointermove',e=>{
+    if(e.pointerType==='touch') return;
+    px=e.clientX; py=e.clientY; bidik(e.target,false);
+  },{passive:true});
+  /* saat halaman digulir, kartu bergeser di bawah kursor yang diam */
+  window.addEventListener('scroll',()=>{
+    if(px<0) return;
+    bidik(document.elementFromPoint(px,py),true);
+  },{passive:true});
+})();
 
 /* ---- pemuatan dari data tertanam ---- */
 document.addEventListener('DOMContentLoaded',()=>{
